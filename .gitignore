@@ -34,7 +34,10 @@ build/Release
 
 # Dependency directories
 node_modules/
-vendor/
+vendor
+!wp-includes/**/vendor
+!wp-admin/**/vendor
+!wp-content/mu-plugins/vendor/
 jspm_packages/
 
 # Typescript v1 declaration files
