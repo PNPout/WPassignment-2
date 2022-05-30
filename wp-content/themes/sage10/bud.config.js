@@ -45,7 +45,7 @@ module.exports = async (app) => {
     .template()
     .minimize()
     .hash(false)
-    .entryPoints()
+    // .entryPoints()
     .runtime()
     .splitChunks()
     
@@ -60,11 +60,17 @@ module.exports = async (app) => {
      * These files will trigger a full page reload
      * when modified.
      */
-    .watch([
-      'tailwind.config.js',
-      'resources/views/**/*.blade.php',
-      'app/View/**/*.php',
-    ])
+    // .watch([
+    //   'tailwind.config.js',
+    //   'resources/views/**/*.blade.php',
+    //   'app/View/**/*.php',
+    // ])
+    .watch(
+      'resources/styles/**/*',
+      'resources/scripts/**/*',
+      'resources/views/**/*',
+      'app/**/*'
+    )
 
     /**
      * Target URL to be proxied by the dev server.
