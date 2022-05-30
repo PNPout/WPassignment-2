@@ -3,7 +3,7 @@
  *
  * @param {bud} app
  */
-const {purgecss} = require('@roots/bud-purgecss')
+const { purgecss } = require('@roots/bud-purgecss');
 
 const fs = require('fs');
 const path = require('path');
@@ -137,7 +137,6 @@ const moduleDatae = moduleNames();
 
 // console.log('entryPoints2',entryPoints2);
 
-
 module.exports = async (app) => {
 
   /**
@@ -250,10 +249,10 @@ module.exports = async (app) => {
      *
      * This is your local dev server.
      */
-    .proxy('http://outside1.pv')
+    .proxy('http://wordpressboilerplate.local')
 
     /**
      * Development URL
      */
-    .serve('http://outside1.pv:3000');
+    .serve('http://wordpressboilerplate.local:3000');
 };
