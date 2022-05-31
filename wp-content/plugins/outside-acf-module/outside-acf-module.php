@@ -56,16 +56,32 @@ class OutsideAcfModule{
                         if (!$slug) {
                             continue;
                         }
-    
+
+
+
                         // Get header info from the found template file(s)
                         $file = "${dir}/${slug}.blade.php";
                         $file_path = file_exists($file) ? $file : '';
                         $cssFilePath = "styles/${slug}.css";
-                        // $cssFilePath = "styles/modules/${slug}.css";
+                        $cssFilePathDev = "styles/${slug}.js";
+                        $jsFilePath = "scripts/${slug}.js";
 
                         if ( checkFileExists( $cssFilePath ) ) {
                             if ( has_block('acf/'.$slug , $id) ) {
                                 wp_enqueue_style($cssFilePath , checkAssetPath($cssFilePath), false, null);
+                            }
+                        }
+
+                        if ( checkFileExists( $jsFilePath ) ) {
+                            if ( has_block('acf/'.$slug , $id) ) {
+                                wp_enqueue_script( $jsFilePath, checkAssetPath($jsFilePath), array('jquery'), '', true );
+                            }
+                        }
+
+
+                        if ( checkFileExists( $cssFilePathDev ) ) {
+                            if ( has_block('acf/'.$slug , $id) ) {
+                                wp_enqueue_script( $cssFilePathDev, checkAssetPath($cssFilePathDev), array('jquery'), '', true );
                             }
                         }
 

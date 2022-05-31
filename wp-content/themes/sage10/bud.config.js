@@ -50,6 +50,10 @@ module.exports = async (app) => {
         'body',
       ],
     })
+    // .purgecss({
+    //   content: [app.path('resources/views/**')],
+    //   safelist: [...require('purgecss-with-wordpress').safelist],
+    // })
     .template()
     .minimize()
     .hash(false)

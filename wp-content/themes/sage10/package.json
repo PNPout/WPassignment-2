@@ -8,7 +8,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "dev": "bud dev",
+    "dev": "bud clean && bud dev",
     "build": "bud clean && bud build",
     "doctor": "bud doctor",
     "lint": "npm run lint:js && npm run lint:css",
