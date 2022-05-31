@@ -9,7 +9,8 @@
   },
   "scripts": {
     "dev": "bud dev",
-    "build": "bud build",
+    "build": "bud clean && bud build",
+    "doctor": "bud doctor",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:js": "eslint resources/scripts",
     "lint:css": "stylelint \"resources/**/*.{css,scss,vue}\"",

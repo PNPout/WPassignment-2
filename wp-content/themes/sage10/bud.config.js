@@ -10,16 +10,17 @@ const path = require('path');
 
 const styleFiles = fs.readdirSync(path.resolve(__dirname, 'resources', 'styles', 'styles'), 'utf-8');
 const scriptFiles = fs.readdirSync(path.resolve(__dirname, 'resources', 'scripts', 'modules'), 'utf-8');
-var styleArray = [];
-var scriptArray = [];
+var styleArray = {};
+var scriptArray = {};
 styleFiles.forEach(style => {
-  styleArray[path.parse(style).name] = path.resolve(__dirname, 'resources/styles', 'styles', style)
+  styleArray[`styles/${path.parse(style).name}`] = path.resolve(__dirname, 'resources/styles', 'styles', style)
 });
 
 scriptFiles.forEach(script => {
-  scriptArray[path.parse(script).name] = path.resolve(__dirname, 'resources/scripts', 'modules', script)
+  scriptArray[`scripts/${path.parse(script).name}`] = path.resolve(__dirname, 'resources/scripts', 'modules', script)
 });
 console.log(styleArray);
+console.log(scriptArray);
 // const StylelintPlugin = require('stylelint-webpack-plugin');
 
 
@@ -30,17 +31,24 @@ module.exports = async (app) => {
      *
      * Paths are relative to your resources directory
      */
+    // .entry({
+    //   // app: ['@scripts/app', '@styles/app'],
+    //   leadspace: '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/scripts/modules/leadspace.js',
+    //   leadspace: '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/styles/styles/leadspace.scss',
+    // })
+
     .entry({
       app: ['@scripts/app', '@styles/app'],
       editor: ['@scripts/editor', '@styles/editor'],
     })
+
     .entry(styleArray)
     .entry(scriptArray)
     .purgecss({
       safelist: [
         'aayus',
-        'body'
-      ]
+        'body',
+      ],
     })
     .template()
     .minimize()
