@@ -1,1 +1,5 @@
-console.log('testin');
+newFunction();
+
+function newFunction() {
+    console.log('testina');
+}

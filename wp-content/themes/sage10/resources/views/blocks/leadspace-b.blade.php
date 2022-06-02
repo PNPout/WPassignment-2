@@ -1,6 +1,6 @@
 {{--
     script[leadspace.js,banner.js,slider.js]script
-    style[leadspace.scss,banner.scss,slider.scss]style
+    style[leadspace.scss,slider.scss]style
     Title: Leadspace
     Description: Leadspace Description]
     Category: outside
