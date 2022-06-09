@@ -3,6 +3,7 @@
  *
  * @param {bud} app
  */
+/* eslint no-use-before-define: 0 */
 const { purgecss } = require('@roots/bud-purgecss');
 
 const fs = require('fs');
