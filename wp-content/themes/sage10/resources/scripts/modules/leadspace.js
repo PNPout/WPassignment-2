@@ -1,5 +1,5 @@
 newFunction();
 
 function newFunction() {
-    console.log('testina');
+  console.log('testina');
 }
