@@ -17,55 +17,60 @@ const moduleFiles = fs.readdirSync(path.resolve(__dirname, 'resources', 'views',
 var styleArray = {};
 var scriptArray = {};
 
-
 // var styleArrayDev = {};
 var scriptArrayDev = {};
 
 //for build
 
 /**
- * Creating readFile FUnction to read module based 
+ * Creating readFile FUnction to read module based
  */
 
-const readFile = (file = null)=> {
-  
-  if( file == null )
-    return false;
-  var filePath = path.resolve(__dirname, 'resources/views', 'blocks', file)
+const readFile = (file = null) => {
+  if (file == null) return false;
+  var filePath = path.resolve(__dirname, 'resources/views', 'blocks', file);
 
   fs.readFile(filePath, 'utf8', function (err, data) {
     let moduleEnPoints = [];
     if (err) throw err;
-    var str = data.match(/script\[(.*?)\]script/ig).toString().replace(/script\[(.*?)\]script/ig,"$1");
-    
+    var str = data
+      .match(/script\[(.*?)\]script/gi)
+      .toString()
+      .replace(/script\[(.*?)\]script/gi, '$1');
+
     // str = str.toString().replace(/script\[(.*?)\]script/ig,"$1");
     str = str.split(',');
     // console.log( str )
-    str = str.map(object => {
-      var pathResolve =  path.resolve(__dirname, 'resources/scripts', 'modules', object);
-      if( fs.existsSync(pathResolve)) {
-        return pathResolve;
-      }
-      // return (fs.existsSync(pathResolve)) ? pathResolve : false;
-    })
-    .filter(obj=>{
-      return obj !== undefined;
-    })
+    str = str
+      .map((object) => {
+        var pathResolve = path.resolve(__dirname, 'resources/scripts', 'modules', object);
+        if (fs.existsSync(pathResolve)) {
+          return pathResolve;
+        }
+        // return (fs.existsSync(pathResolve)) ? pathResolve : false;
+      })
+      .filter((obj) => {
+        return obj !== undefined;
+      });
     var moduleName = path.parse(path.parse(file).name).name;
     // moduleEnPoints['js'] = str;
     moduleEnPoints.push(str);
-    str = data.match(/style\[(.*?)\]style/ig).toString().replace(/style\[(.*?)\]style/ig,"$1");
+    str = data
+      .match(/style\[(.*?)\]style/gi)
+      .toString()
+      .replace(/style\[(.*?)\]style/gi, '$1');
     str = str.split(',');
     // console.log( str )
-    str = str.map(object => {
-      var pathResolve = path.resolve(__dirname, 'resources/styles', 'styles', object);
-      if( fs.existsSync(pathResolve) ) {
-        return pathResolve;
-      }
-    })
-    .filter(obj=>{
-      return obj !== undefined;
-    })
+    str = str
+      .map((object) => {
+        var pathResolve = path.resolve(__dirname, 'resources/styles', 'styles', object);
+        if (fs.existsSync(pathResolve)) {
+          return pathResolve;
+        }
+      })
+      .filter((obj) => {
+        return obj !== undefined;
+      });
     moduleName = path.parse(path.parse(file).name).name;
     // moduleEnPoints['css'] = str;
     moduleEnPoints.push(str);
@@ -76,38 +81,36 @@ const readFile = (file = null)=> {
     // console.log('moduleEnPoints',moduleEnPoints)
   });
   return scriptArrayDev;
-  
+};
 
-}
-
-const scriptListFunc = () =>{
-  let arrayData  = [], arrayScriptData=[];
-  styleFiles.forEach( ( style ) => {
-    arrayData.push( path.resolve(__dirname, 'resources/styles', 'styles', style) );
+const scriptListFunc = () => {
+  let arrayData = [],
+    arrayScriptData = [];
+  styleFiles.forEach((style) => {
+    arrayData.push(path.resolve(__dirname, 'resources/styles', 'styles', style));
   });
 
-  scriptFiles.forEach(script => {
-    arrayScriptData.push( path.resolve(__dirname, 'resources/scripts', 'modules', script) );
+  scriptFiles.forEach((script) => {
+    arrayScriptData.push(path.resolve(__dirname, 'resources/scripts', 'modules', script));
   });
-  let newData = [...arrayData, ...arrayScriptData]
+  let newData = [...arrayData, ...arrayScriptData];
   // console.log(newData)
-}
+};
 // scriptListFunc();
 
-let moduleNames = () =>{
-  console.log('Reading Modules Name')
+let moduleNames = () => {
+  console.log('Reading Modules Name');
   let readData;
-  var targetFiles = moduleFiles.filter(function(file) {
-      return path.extname(file).toLowerCase() === '.php';
+  var targetFiles = moduleFiles.filter(function (file) {
+    return path.extname(file).toLowerCase() === '.php';
   });
-  targetFiles.forEach( module =>{
+  targetFiles.forEach((module) => {
     // console.log(module)
     readData = readFile(module);
     // console.log('readData',readData)
-  })
+  });
   return readData;
-
-}
+};
 
 const moduleDatae = moduleNames();
 // console.log(moduleDatae);
@@ -134,15 +137,13 @@ const moduleDatae = moduleNames();
 //   ]
 // }
 
-
 // console.log('entryPoints2',entryPoints2);
 
 module.exports = async (app) => {
-
   /**
    * Assign app state
    */
-  const thisDevelopment =  app.isDevelopment;
+  const thisDevelopment = app.isDevelopment;
   // console.log(thisDevelopment);
   // console.log(app.mode);
   // app.extensions.remove('clean-webpack-plugin')
@@ -153,7 +154,7 @@ module.exports = async (app) => {
      *
      * Paths are relative to your resources directory
      * Global EntryPoints
-     * 
+     *
      */
 
     .entry({
@@ -161,31 +162,40 @@ module.exports = async (app) => {
       editor: ['@scripts/editor', '@styles/editor'],
     })
 
-    .when(thisDevelopment, ()=>{
-      console.table('Initiate Dev state')
-      scriptArray = moduleNames();
-      app.entry(scriptArray);
-    }, ( )=>{
-      console.table('Initiate Prod State')
-      /**
-       * Creating Style files EntryPoints
-       * styles/moduleName : " module css file path"
-       */
-      styleFiles.forEach(style => {
-        styleArray[`styles/${path.parse(style).name}`] = path.resolve(__dirname, 'resources/styles', 'styles', style)
-      });
-      /**
-       * Creating Script files EntryPoints
-       * {
-       * scripts/moduleName : " module JS file path"
-       * 
-       */
-      scriptFiles.forEach(script => {
-        scriptArray[`scripts/${path.parse(script).name}`] = path.resolve(__dirname, 'resources/scripts', 'modules', script)
-      });
-      app.entry(styleArray);
-      app.entry(scriptArray);
-    })
+    .when(
+      thisDevelopment,
+      () => {
+        console.table('Initiate Dev state');
+        scriptArray = moduleNames();
+        app.entry(scriptArray);
+      },
+      () => {
+        console.table('Initiate Prod State');
+        /**
+         * Creating Style files EntryPoints
+         * styles/moduleName : " module css file path"
+         */
+        styleFiles.forEach((style) => {
+          styleArray[`styles/${path.parse(style).name}`] = path.resolve(__dirname, 'resources/styles', 'styles', style);
+        });
+        /**
+         * Creating Script files EntryPoints
+         * {
+         * scripts/moduleName : " module JS file path"
+         *
+         */
+        scriptFiles.forEach((script) => {
+          scriptArray[`scripts/${path.parse(script).name}`] = path.resolve(
+            __dirname,
+            'resources/scripts',
+            'modules',
+            script
+          );
+        });
+        app.entry(styleArray);
+        app.entry(scriptArray);
+      }
+    )
     .when(
       app.isProduction,
       () => app.hash().minimize(),
@@ -212,18 +222,15 @@ module.exports = async (app) => {
     // .entryPoints()
     // .runtime()
     // .splitChunks()
-    
 
     /**
      * These files should be processed as part of the build
      * even if they are not explicitly imported in application assets.
      */
-    .assets(
-      [
-        ['images','images'],
-        ['fonts','fonts'],
-      ],
-    )
+    .assets([
+      ['images', 'images'],
+      ['fonts', 'fonts'],
+    ])
 
     /**
      * These files will trigger a full page reload
@@ -237,12 +244,7 @@ module.exports = async (app) => {
     /**
      * Watchable files
      */
-    .watch(
-      'resources/styles/**/*',
-      'resources/scripts/**/*',
-      'resources/views/**/*',
-      'app/**/*'
-    )
+    .watch('resources/styles/**/*', 'resources/scripts/**/*', 'resources/views/**/*', 'app/**/*')
 
     /**
      * Target URL to be proxied by the dev server.
