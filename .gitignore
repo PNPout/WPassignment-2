@@ -59,6 +59,9 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+# config ignore if not needed
+wp-config.php
+
 # dotenv environment variables file
 .env
 
