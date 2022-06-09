@@ -15,6 +15,10 @@ use function Roots\bundle;
  */
 add_action('wp_enqueue_scripts', function () {
     bundle('app')->enqueue();
+    // bundle('combine')->enqueue();
+    // bundle('combineJs')->enqueue();
+    // bundle('leadspace')->enqueue();
+    // bundle('leadspace-b')->enqueue();
 }, 100);
 
 /**

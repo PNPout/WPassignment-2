@@ -8,6 +8,7 @@
  * Author URI: https://outside.tech
  */
 namespace App;
+use function Roots\bundle;
 class OutsideAcfModule{
     private $assetsData;
 
@@ -78,12 +79,27 @@ class OutsideAcfModule{
                             }
                         }
 
-
-                        if ( checkFileExists( $cssFilePathDev ) ) {
+                        /**
+                         * Asset enqueue for development purpose
+                         * 
+                         */
+                        $devModulesPath = "dev/${slug}.js";
+                        if ( checkFileExists( $devModulesPath ) ) {
                             if ( has_block('acf/'.$slug , $id) ) {
-                                wp_enqueue_script( $cssFilePathDev, checkAssetPath($cssFilePathDev), array('jquery'), '', true );
+                                wp_enqueue_script( $devModulesPath, checkAssetPath($devModulesPath), array('jquery'), '', true );
                             }
                         }
+
+                        // $file = 'modules/'
+                        // if (checkFileExists($file)) {
+                        //     wp_enqueue_script($file, checkAssetPath($file), array('jquery'), '', true);
+                        // }
+
+                        // if ( checkFileExists( $cssFilePathDev ) ) {
+                        //     if ( has_block('acf/'.$slug , $id) ) {
+                        //         wp_enqueue_script( $cssFilePathDev, checkAssetPath($cssFilePathDev), array('jquery'), '', true );
+                        //     }
+                        // }
 
 
                     }
@@ -370,8 +386,17 @@ class OutsideAcfModule{
             if (!empty($enqueData['styles'])) {
                 $enqueAssetsFiles = explode(",", $enqueData['styles']);
                 foreach ($enqueAssetsFiles as $file) {
+                    // print_r($file);
+                    //echo pathinfo($file, PATHINFO_EXTENSION);
+                    $filePath = basename($file, ".css");
+                    
                     if (checkFileExists($file)) {
                         wp_enqueue_style($file, checkAssetPath($file), true, null);
+                    }
+                    
+                    $fileJs = 'styles/'.$filePath.'.js';
+                    if( checkFileExists($fileJs)) {
+                        wp_enqueue_script($fileJs, checkAssetPath($fileJs), array('jquery'), '', true);
                     }
                 }
             }

@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "bud clean && bud dev",
     "build": "bud clean && bud build",
+    "buildwatch": "bud clean && bud build",
     "doctor": "bud doctor",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:js": "eslint resources/scripts",

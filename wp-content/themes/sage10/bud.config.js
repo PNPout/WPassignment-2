@@ -7,49 +7,202 @@ const {purgecss} = require('@roots/bud-purgecss')
 
 const fs = require('fs');
 const path = require('path');
+const { exit } = require('process');
 
 const styleFiles = fs.readdirSync(path.resolve(__dirname, 'resources', 'styles', 'styles'), 'utf-8');
 const scriptFiles = fs.readdirSync(path.resolve(__dirname, 'resources', 'scripts', 'modules'), 'utf-8');
+
+const moduleFiles = fs.readdirSync(path.resolve(__dirname, 'resources', 'views', 'blocks'), 'utf-8');
+
 var styleArray = {};
 var scriptArray = {};
-styleFiles.forEach(style => {
-  styleArray[`styles/${path.parse(style).name}`] = path.resolve(__dirname, 'resources/styles', 'styles', style)
-});
 
-scriptFiles.forEach(script => {
-  scriptArray[`scripts/${path.parse(script).name}`] = path.resolve(__dirname, 'resources/scripts', 'modules', script)
-});
-console.log(styleArray);
-console.log(scriptArray);
-// const StylelintPlugin = require('stylelint-webpack-plugin');
+
+// var styleArrayDev = {};
+var scriptArrayDev = {};
+
+//for build
+
+/**
+ * Creating readFile FUnction to read module based 
+ */
+
+const readFile = (file = null)=> {
+  
+  if( file == null )
+    return false;
+  var filePath = path.resolve(__dirname, 'resources/views', 'blocks', file)
+
+  fs.readFile(filePath, 'utf8', function (err, data) {
+    let moduleEnPoints = [];
+    if (err) throw err;
+    var str = data.match(/script\[(.*?)\]script/ig).toString().replace(/script\[(.*?)\]script/ig,"$1");
+    
+    // str = str.toString().replace(/script\[(.*?)\]script/ig,"$1");
+    str = str.split(',');
+    // console.log( str )
+    str = str.map(object => {
+      var pathResolve =  path.resolve(__dirname, 'resources/scripts', 'modules', object);
+      if( fs.existsSync(pathResolve)) {
+        return pathResolve;
+      }
+      // return (fs.existsSync(pathResolve)) ? pathResolve : false;
+    })
+    .filter(obj=>{
+      return obj !== undefined;
+    })
+    var moduleName = path.parse(path.parse(file).name).name;
+    // moduleEnPoints['js'] = str;
+    moduleEnPoints.push(str);
+    str = data.match(/style\[(.*?)\]style/ig).toString().replace(/style\[(.*?)\]style/ig,"$1");
+    str = str.split(',');
+    // console.log( str )
+    str = str.map(object => {
+      var pathResolve = path.resolve(__dirname, 'resources/styles', 'styles', object);
+      if( fs.existsSync(pathResolve) ) {
+        return pathResolve;
+      }
+    })
+    .filter(obj=>{
+      return obj !== undefined;
+    })
+    moduleName = path.parse(path.parse(file).name).name;
+    // moduleEnPoints['css'] = str;
+    moduleEnPoints.push(str);
+
+    scriptArrayDev[`dev/${moduleName}`] = moduleEnPoints;
+    // console.log( path.parse(path.parse(file).name).name )
+    // console.log(scriptArrayDev)
+    // console.log('moduleEnPoints',moduleEnPoints)
+  });
+  return scriptArrayDev;
+  
+
+}
+
+const scriptListFunc = () =>{
+  let arrayData  = [], arrayScriptData=[];
+  styleFiles.forEach( ( style ) => {
+    arrayData.push( path.resolve(__dirname, 'resources/styles', 'styles', style) );
+  });
+
+  scriptFiles.forEach(script => {
+    arrayScriptData.push( path.resolve(__dirname, 'resources/scripts', 'modules', script) );
+  });
+  let newData = [...arrayData, ...arrayScriptData]
+  // console.log(newData)
+}
+// scriptListFunc();
+
+let moduleNames = () =>{
+  console.log('Reading Modules Name')
+  let readData;
+  var targetFiles = moduleFiles.filter(function(file) {
+      return path.extname(file).toLowerCase() === '.php';
+  });
+  targetFiles.forEach( module =>{
+    // console.log(module)
+    readData = readFile(module);
+    // console.log('readData',readData)
+  })
+  return readData;
+
+}
+
+const moduleDatae = moduleNames();
+// console.log(moduleDatae);
+
+// let entryPoints2 = {
+//   'dev/leadspace-b': [
+//     [
+//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/scripts/modules/leadspace.js',
+//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/scripts/modules/banner.js'
+//     ],
+//     [
+//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/styles/styles/leadspace.scss'
+//     ]
+//   ],
+//   'dev/leadspace': [
+//     [
+//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/scripts/modules/leadspace.js',
+//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/scripts/modules/banner.js'
+//     ],
+//     [
+//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/styles/styles/leadspace.scss',
+//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/styles/styles/banner.scss'
+//     ]
+//   ]
+// }
+
+
+// console.log('entryPoints2',entryPoints2);
 
 
 module.exports = async (app) => {
+
+  /**
+   * Assign app state
+   */
+  const thisDevelopment =  app.isDevelopment;
+  // console.log(thisDevelopment);
+  // console.log(app.mode);
+  // app.extensions.remove('clean-webpack-plugin')
+
   app
     /**
      * Application entrypoints
      *
      * Paths are relative to your resources directory
+     * Global EntryPoints
+     * 
      */
-    // .entry({
-    //   // app: ['@scripts/app', '@styles/app'],
-    //   leadspace: '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/scripts/modules/leadspace.js',
-    //   leadspace: '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/styles/styles/leadspace.scss',
-    // })
 
     .entry({
       app: ['@scripts/app', '@styles/app'],
       editor: ['@scripts/editor', '@styles/editor'],
     })
 
-    .entry(styleArray)
-    .entry(scriptArray)
-    .purgecss({
-      safelist: [
-        'aayus',
-        'body',
-      ],
+    .when(thisDevelopment, ()=>{
+      console.table('Initiate Dev state')
+      scriptArray = moduleNames();
+      app.entry(scriptArray);
+    }, ( )=>{
+      console.table('Initiate Prod State')
+      /**
+       * Creating Style files EntryPoints
+       * styles/moduleName : " module css file path"
+       */
+      styleFiles.forEach(style => {
+        styleArray[`styles/${path.parse(style).name}`] = path.resolve(__dirname, 'resources/styles', 'styles', style)
+      });
+      /**
+       * Creating Script files EntryPoints
+       * {
+       * scripts/moduleName : " module JS file path"
+       * 
+       */
+      scriptFiles.forEach(script => {
+        scriptArray[`scripts/${path.parse(script).name}`] = path.resolve(__dirname, 'resources/scripts', 'modules', script)
+      });
+      app.entry(styleArray);
+      app.entry(scriptArray);
     })
+    .when(
+      app.isProduction,
+      () => app.hash().minimize(),
+      () => app.devtool()
+    )
+
+    /**
+     * Adding Purge CSS to remove unused CSS with whitelisting/safelisting
+     */
+    // .purgecss({
+    //   content: [app.path('resources/views/**')],
+    //   safelist: [
+    //     'aayus',
+    //     'body',
+    //   ],
+    // })
     // .purgecss({
     //   content: [app.path('resources/views/**')],
     //   safelist: [...require('purgecss-with-wordpress').safelist],
@@ -58,15 +211,20 @@ module.exports = async (app) => {
     .minimize()
     .hash(false)
     // .entryPoints()
-    .runtime()
-    .splitChunks()
+    // .runtime()
+    // .splitChunks()
     
 
     /**
      * These files should be processed as part of the build
      * even if they are not explicitly imported in application assets.
      */
-    .assets('images')
+    .assets(
+      [
+        ['images','images'],
+        ['fonts','fonts'],
+      ],
+    )
 
     /**
      * These files will trigger a full page reload
@@ -77,6 +235,9 @@ module.exports = async (app) => {
     //   'resources/views/**/*.blade.php',
     //   'app/View/**/*.php',
     // ])
+    /**
+     * Watchable files
+     */
     .watch(
       'resources/styles/**/*',
       'resources/scripts/**/*',
