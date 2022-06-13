@@ -246,6 +246,7 @@ module.exports = async (app) => {
      * Watchable files
      */
     .watch('resources/styles/**/*', 'resources/scripts/**/*', 'resources/views/**/*', 'app/**/*')
+    .setPublicPath(app.isDevelopment ? '/' : '')
 
     /**
      * Target URL to be proxied by the dev server.
