@@ -1,5 +1,6 @@
 // 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
-// @import '../../node_modules/bootstrap/scss/functions';
+@import './global/path';
+@import './global/fonts';
 @import 'bootstrap/scss/functions';
 
 // 2. Include any default variable overrides here
@@ -11,6 +12,7 @@
 // 4. Include remainder of required parts
 // @import 'bootstrap/scss/maps';
 @import 'bootstrap/scss/mixins';
+@import 'mixins/mixins';
 @import 'bootstrap/scss/root';
 
 // 5. Optionally include any other parts as needed
@@ -22,27 +24,30 @@
 @import 'bootstrap/scss/grid';
 @import 'bootstrap/scss/helpers';
 
-// 6. Utitlities Override
-/* stylelint-disable */
+//6. adding Custom Global Functions
+@import 'base/global-vars';
+@import 'base/grids';
 
+// 7 . Common Modules / Components
+@import './components';
+
+// 8. Utitlities Override
+/* stylelint-disable */
 $utilities: map-merge(
   $utilities,
   (
-    'font-weight':
-      map-merge(
-        map-get($utilities, 'font-weight'),
-        (
-          values:
-            map-merge(
-              map-get(map-get($utilities, 'font-weight'), 'values'),
-              (
-                medium: 500,
-              )
-            ),
-        )
-      ),
+    'cursor': (
+      property: cursor,
+      class: cursor,
+      responsive: true,
+      values: auto pointer grab,
+    ),
   )
 );
+// 9 . Custom Utilities
+@import './utilities';
 
 // 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
 @import 'bootstrap/scss/utilities/api';
+
+// Don't Add anything below this.
