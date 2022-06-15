@@ -145,9 +145,6 @@ module.exports = async (app) => {
    * Assign app state
    */
   const thisDevelopment = app.isDevelopment;
-  // console.log(thisDevelopment);
-  // console.log(app.mode);
-  // app.extensions.remove('clean-webpack-plugin')
 
   app
     /**
