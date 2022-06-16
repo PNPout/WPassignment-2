@@ -1,7 +1,7 @@
 {{--
     script[leadspace.js,banner.js,slider.js]script
     style[leadspace.scss,slider.scss]style
-    Title: Leadspace
+    Title: Leadspace B
     Description: Leadspace Description]
     Category: outside
     Icon: admin-tools
