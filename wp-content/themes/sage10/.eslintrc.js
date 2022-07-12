@@ -2,6 +2,6 @@ module.exports = {
   root: true,
   extends: ['@roots/eslint-config/sage'],
   rules: {
-    'no-unused-vars': 0,
+    'no-unused-vars': 1,
   },
 };
