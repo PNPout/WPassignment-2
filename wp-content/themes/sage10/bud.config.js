@@ -95,9 +95,7 @@ const scriptListFunc = () => {
     arrayScriptData.push(path.resolve(__dirname, 'resources/scripts', 'modules', script));
   });
   let newData = [...arrayData, ...arrayScriptData];
-  // console.log(newData)
 };
-// scriptListFunc();
 
 let moduleNames = () => {
   console.log('Reading Modules Name');
@@ -106,45 +104,24 @@ let moduleNames = () => {
     return path.extname(file).toLowerCase() === '.php';
   });
   targetFiles.forEach((module) => {
-    // console.log(module)
     readData = readFile(module);
-    // console.log('readData',readData)
   });
   return readData;
 };
 
 const moduleDatae = moduleNames();
-// console.log(moduleDatae);
-
-// let entryPoints2 = {
-//   'dev/leadspace-b': [
-//     [
-//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/scripts/modules/leadspace.js',
-//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/scripts/modules/banner.js'
-//     ],
-//     [
-//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/styles/styles/leadspace.scss'
-//     ]
-//   ],
-//   'dev/leadspace': [
-//     [
-//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/scripts/modules/leadspace.js',
-//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/scripts/modules/banner.js'
-//     ],
-//     [
-//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/styles/styles/leadspace.scss',
-//       '/var/html/Local/outside1/app/public/wp-content/themes/sage10/resources/styles/styles/banner.scss'
-//     ]
-//   ]
-// }
-
-// console.log('entryPoints2',entryPoints2);
 
 module.exports = async (app) => {
   /**
    * Assign app state
    */
   const thisDevelopment = app.isDevelopment;
+  app.extensions.get('copy-webpack-plugin').setOption('patterns', [
+    {
+      from: app.path('@src/images'),
+      to: app.path('@dist/images'),
+    },
+  ]);
 
   app
     /**
@@ -196,30 +173,44 @@ module.exports = async (app) => {
     )
     .when(
       app.isProduction,
-      () => app.hash().minimize(),
+      () => app.template().runtime('single').hash().minimize(),
       () => app.devtool()
     )
 
     /**
      * Adding Purge CSS to remove unused CSS with whitelisting/safelisting
      */
-    // .purgecss({
-    //   content: [app.path('resources/views/**')],
-    //   safelist: [
-    //     'aayus',
-    //     'body',
-    //   ],
-    // })
-    // .purgecss({
-    //   content: [app.path('resources/views/**')],
-    //   safelist: [...require('purgecss-with-wordpress').safelist],
-    // })
+    .purgecss({
+      content: [
+        app.path('resources/views/**'),
+      ],
+      safelist: [
+        ...require('purgecss-with-wordpress').safelist,
+        'aayus',
+        'body',
+      ],
+    })
     .template()
     .minimize()
     .hash(false)
     // .entryPoints()
     // .runtime()
     // .splitChunks()
+    .hooks.on('build.optimization.splitChunks', (options) => ({
+      ...options,
+      cacheGroups: {
+        vendors: {
+          test: app.hooks.filter('pattern.modules'),
+          priority: -10,
+          reuseExistingChunk: true,
+        },
+        default: {
+          minChunks: 10,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    }))
 
     /**
      * These files should be processed as part of the build
@@ -243,7 +234,7 @@ module.exports = async (app) => {
      * Watchable files
      */
     .watch('resources/styles/**/*', 'resources/scripts/**/*', 'resources/views/**/*', 'app/**/*')
-    .setPublicPath(app.isDevelopment ? '/' : '')
+    .setPublicPath(app.isDevelopment ? '/wp-content/themes/sage10/public/' : '/wp-content/themes/sage10/public/')
 
     /**
      * Target URL to be proxied by the dev server.
