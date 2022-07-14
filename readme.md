@@ -12,9 +12,6 @@
 * Now we need to install packages for asset building using command `` yarn `` from theme folder. Note - **Node version must be >= 16**
 * From base theme folder (sage10 || project name)  run `` yarn prepare `` to add husky.
 
-# After Changing a name of  #
-
-
 ## For Windows follow below settings ##
 * For windows - OS must have WSL with version 1
 * For that follow - 
