@@ -8,6 +8,8 @@
 * and go to theme folder using code `` cd wp-content/themes/themeName ``
 * From theme folder run composer using command `` composer install `` - This will install all the package dependecies that we needs to run sage framework
 * Now we need to install packages for asset building using command `` yarn `` from theme folder. Note - **Node version must be >= 16**
+* From base theme folder (sage10)  run `` yarn prepare `` to add husky.
+
 
 ## For Windows follow below settings ##
 * For windows - OS must have WSL with version 1
