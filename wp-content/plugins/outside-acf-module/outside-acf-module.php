@@ -18,6 +18,7 @@ class OutsideAcfModule
 
     public function __construct()
     {
+
         if (! function_exists('acf_register_block_type')) {
             return;
         }
@@ -25,6 +26,10 @@ class OutsideAcfModule
             return;
         }
         if (! function_exists('add_action')) {
+            return;
+        }
+
+        if(! function_exists('customSage')) {
             return;
         }
 
@@ -49,8 +54,10 @@ class OutsideAcfModule
                 }
                 $template_directory = new \DirectoryIterator($dir);
                 foreach ($template_directory as $template) {
+
                     // print_r($template);
                     if (!$template->isDot() && !$template->isDir()) {
+
                         // Strip the file extension to get the slug
                         $slug = removeBladeExtension($template->getFilename());
                         // If there is no slug (most likely because the filename does
@@ -68,26 +75,40 @@ class OutsideAcfModule
                         $cssFilePathDev = "styles/${slug}.js";
                         $jsFilePath = "scripts/${slug}.js";
 
-                        if (checkFileExists($cssFilePath)) {
-                            if (has_block('acf/'.$slug, $id)) {
-                                wp_enqueue_style($cssFilePath, checkAssetPath($cssFilePath), false, null);
-                            }
-                        }
+                        // if ( checkFileExists( $cssFilePath ) ) {
+                        //     if ( has_block('acf/'.$slug , $id) ) {
+                        //         wp_enqueue_style($cssFilePath , checkAssetPath($cssFilePath), false, null);
+                        //     }
+                        // }
 
-                        if (checkFileExists($jsFilePath)) {
-                            if (has_block('acf/'.$slug, $id)) {
-                                wp_enqueue_script($jsFilePath, checkAssetPath($jsFilePath), array('jquery'), '', true);
-                            }
-                        }
+                        // if ( checkFileExists( $jsFilePath ) ) {
+                        //     if ( has_block('acf/'.$slug , $id) ) {
+                        //         wp_enqueue_script( $jsFilePath, checkAssetPath($jsFilePath), array('jquery'), '', true );
+                        //     }
+                        // }
+
 
                         /**
                          * Asset enqueue for development purpose
                          *
                          */
-                        $devModulesPath = "dev/${slug}.js";
+                        $devModulesPath = "${slug}.js";
                         if (checkFileExists($devModulesPath)) {
                             if (has_block('acf/'.$slug, $id)) {
-                                wp_enqueue_script($devModulesPath, checkAssetPath($devModulesPath), array('jquery'), '', true);
+                                // print_r($slug);
+                                // exit;
+                                bundle("${slug}")->enqueue();
+                                // wp_enqueue_script( $devModulesPath, checkAssetPath($devModulesPath), array('jquery'), '', true );
+                            }
+                        } else {
+                            $devModulesPath = "${slug}.css";
+                            if (checkFileExists($devModulesPath)) {
+                                if (has_block('acf/'.$slug, $id)) {
+                                    // print_r($slug);
+                                    // exit;
+                                    bundle("${slug}")->enqueue();
+                                    // wp_enqueue_script( $devModulesPath, checkAssetPath($devModulesPath), array('jquery'), '', true );
+                                }
                             }
                         }
 
@@ -101,15 +122,20 @@ class OutsideAcfModule
                         //         wp_enqueue_script( $cssFilePathDev, checkAssetPath($cssFilePathDev), array('jquery'), '', true );
                         //     }
                         // }
+
+
                     }
                 }
+
             }
+
         }, 1000);
 
         /**
          * Create blocks based on templates found in Sage's "views/blocks" directory
         */
         add_action('acf/init', function () {
+
             // Global $sage_error so we can throw errors in the typical sage manner
             global $sage_error;
             global $enqueData;
@@ -130,6 +156,7 @@ class OutsideAcfModule
 
                 foreach ($template_directory as $template) {
                     if (!$template->isDot() && !$template->isDir()) {
+
                         // Strip the file extension to get the slug
                         $slug = removeBladeExtension($template->getFilename());
                         // If there is no slug (most likely because the filename does
@@ -269,6 +296,7 @@ class OutsideAcfModule
                     }
                 }
             }
+
         });
 
         /**
@@ -307,10 +335,12 @@ class OutsideAcfModule
                 $view = ltrim($directory, 'views/') . '/' . $slug;
 
                 if (isSage10()) {
+
                     if (\Roots\view()->exists($view)) {
                         // Use Sage's view() function to echo the block and populate it with data
                         echo \Roots\view($view, ['block' => $block]);
                     }
+
                 } else {
                     try {
                         // Use Sage 9's template() function to echo the block and populate it with data
@@ -397,7 +427,7 @@ class OutsideAcfModule
                     }
 
                     $fileJs = 'styles/'.$filePath.'.js';
-                    if (checkFileExists($fileJs)) {
+                    if(checkFileExists($fileJs)) {
                         wp_enqueue_script($fileJs, checkAssetPath($fileJs), array('jquery'), '', true);
                     }
                 }
@@ -413,8 +443,10 @@ class OutsideAcfModule
                     if (checkFileExists($file)) {
                         wp_enqueue_script($file, checkAssetPath($file), array('jquery'), '', true);
                     }
+
                 }
             }
+
         }
     }
     // public function setAssets($assetsFiles) {
@@ -423,6 +455,8 @@ class OutsideAcfModule
     // public function getAssets() {
     //     return $this->assetsData;
     // }
+
+
 }
 
 new OutsideAcfModule();

@@ -1,6 +1,6 @@
 {{--
-    script[leadspace.js,banner.js,slider.js]script
-    style[leadspace.scss,banner.scss,slider.scss]style
+    script[banner.js]script
+    style[leadspace.scss]style
     Title: Leadspace
     Description: Leadspace Description]
     Category: outside
@@ -16,8 +16,8 @@
     EnqueueStyle:
     EnqueueScript:
     EnqueueAssets: assetsEnqueue
-    EnqueueAssetsCSS: styles/banner.css,styles/slider.css
-    EnqueueAssetsJS: scripts/banner.js,scripts/slider.js
+    EnqueueAssetsCSS:
+    EnqueueAssetsJS:
 --}}
 <!-- leadspace html goes here -->
 

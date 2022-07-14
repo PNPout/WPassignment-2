@@ -24,7 +24,6 @@
     }
   }
 }
-
 .form-check {
   margin-bottom: 0;
   display: flex;
@@ -34,7 +33,6 @@
     margin-left: 0.8rem;
   }
 }
-
 .form-check-input {
   border: 0.15rem solid black;
   width: 1.6rem;
@@ -61,12 +59,12 @@
       top: -0.9rem;
       left: -0.1rem;
       @include icons-pseudo;
+
       font-size: 1.6rem;
       color: green;
     }
   }
 }
-
 .invalid {
   .wpcf7-response-output {
     border: none !important;
@@ -87,7 +85,6 @@
     }
   }
 }
-
 .requiblack-note {
   font-size: 1.4rem;
   font-weight: $font-weight-bold;

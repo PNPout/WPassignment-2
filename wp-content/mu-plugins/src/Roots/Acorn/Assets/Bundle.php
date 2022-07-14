@@ -52,7 +52,8 @@ class Bundle implements BundleContract
 
         collect($this->bundle['css'] ?? [])
             ->each(function ($src, $handle) use ($callable) {
-                $callable("{$this->id}/{$handle}", $this->getUrl($src));
+                //$callable("{$this->id}/{$handle}", $this->getUrl($src));
+                $callable("{$src}", $this->getUrl($src));
             });
 
         return $this;
@@ -75,7 +76,8 @@ class Bundle implements BundleContract
         collect($this->bundle['js'])
             ->reject('runtime')
             ->each(function ($src, $handle) use ($callable) {
-                $callable("{$this->id}/{$handle}", $this->getUrl($src), $this->dependencies());
+                // print_r($src);
+                $callable("{$src}", $this->getUrl($src), $this->dependencies());
             });
 
         return $this;

@@ -1,5 +1,5 @@
 {{--
-    script[leadspace.js,banner.js,slider.js]script
+    script[leadspace.js]script
     style[leadspace.scss,slider.scss]style
     Title: Leadspace B
     Description: Leadspace Description]
@@ -16,8 +16,8 @@
     EnqueueStyle:
     EnqueueScript:
     EnqueueAssets: assetsEnqueue
-    EnqueueAssetsCSS: styles/banner.css,styles/slider.css
-    EnqueueAssetsJS: scripts/banner.js,scripts/slider.js
+    EnqueueAssetsCSS:
+    EnqueueAssetsJS:
 --}}
 <!-- leadspace html goes here -->
 
@@ -30,6 +30,7 @@
 @else
     @php
         $blockId = $block['id'];
+        $leadspaceTitle = '';
     @endphp
 
 
@@ -45,6 +46,7 @@
         'class' => 'card2',
         'leadspaceTitle' => $leadspaceTitle
     ])
+
 
 @endif
 
