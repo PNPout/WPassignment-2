@@ -4,11 +4,15 @@
 * Create New Wordpress site 
 * All WP files will be now - local site/app/public folder
 * Clone this boilerplate to and replce all the files into public folder except wp-config.php
+* On the first go we must need to change theme folder name from sage10 to project based name.
+   * Inside package.json file, replace sage10 with project based name.
 * Open shell using localwp 
 * and go to theme folder using code `` cd wp-content/themes/themeName ``
 * From theme folder run composer using command `` composer install `` - This will install all the package dependecies that we needs to run sage framework
 * Now we need to install packages for asset building using command `` yarn `` from theme folder. Note - **Node version must be >= 16**
-* From base theme folder (sage10)  run `` yarn prepare `` to add husky.
+* From base theme folder (sage10 || project name)  run `` yarn prepare `` to add husky.
+
+# After Changing a name of  #
 
 
 ## For Windows follow below settings ##
