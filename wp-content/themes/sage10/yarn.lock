@@ -2179,6 +2179,18 @@ astral-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
 
+autoprefixer@10.4.6:
+  version "10.4.6"
+  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.4.6.tgz#ce6eba3aea7c03adf0f6a907bd594fd170b3f0b6"
+  integrity sha512-Rvzel0AZO9tJNm3ydySK80PpkWoEZTGC5bHUh/xbrP8qJCy08NFBwNGPcozy3d3SDIM0b2kNxw2K7jAIYFF01A==
+  dependencies:
+    browserslist "^4.20.3"
+    caniuse-lite "^1.0.30001334"
+    fraction.js "^4.2.0"
+    normalize-range "^0.1.2"
+    picocolors "^1.0.0"
+    postcss-value-parser "^4.2.0"
+
 autoprefixer@^10.4.7:
   version "10.4.7"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.4.7.tgz#1db8d195f41a52ca5069b7593be167618edbbedf"
@@ -2398,6 +2410,11 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001179, can
   version "1.0.30001352"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001352.tgz#cc6f5da3f983979ad1e2cdbae0505dccaa7c6a12"
   integrity sha512-GUgH8w6YergqPQDGWhJGt8GDRnY0L/iJVQcU3eJ46GYf52R8tk0Wxp0PymuFVZboJYXGiCqwozAYZNRjVj6IcA==
+
+caniuse-lite@^1.0.30001334:
+  version "1.0.30001366"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001366.tgz#c73352c83830a9eaf2dea0ff71fb4b9a4bbaa89c"
+  integrity sha512-yy7XLWCubDobokgzudpkKux8e0UOOnLHE6mlNJBzT3lZJz6s5atSEzjoL+fsCPkI0G8MP5uVdDx1ur/fXEWkZA==
 
 ccount@^2.0.0:
   version "2.0.1"
@@ -6396,6 +6413,11 @@ purgecss-webpack-plugin@^4.1.3:
     purgecss "^4.1.3"
     webpack "^5.4.0"
     webpack-sources "^3.2.0"
+
+purgecss-with-wordpress@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/purgecss-with-wordpress/-/purgecss-with-wordpress-4.1.0.tgz#77a113f3871f2ddbd6e718347f34f5ab5711b934"
+  integrity sha512-pbW6bhmAEY/u3UzOVk8qKKwRgDoAdiWnt/Kj3xNEgwCSYtuN0UHox3W1zXDBeKguVF5mS767yQR36x5zs1vqEQ==
 
 purgecss@^4.1.3:
   version "4.1.3"

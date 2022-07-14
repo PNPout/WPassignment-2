@@ -181,14 +181,8 @@ module.exports = async (app) => {
      * Adding Purge CSS to remove unused CSS with whitelisting/safelisting
      */
     .purgecss({
-      content: [
-        app.path('resources/views/**'),
-      ],
-      safelist: [
-        ...require('purgecss-with-wordpress').safelist,
-        'aayus',
-        'body',
-      ],
+      content: [app.path('resources/views/**')],
+      safelist: [...require('purgecss-with-wordpress').safelist, 'aayus', 'body'],
     })
     .template()
     .minimize()
@@ -241,10 +235,10 @@ module.exports = async (app) => {
      *
      * This is your local dev server.
      */
-    .proxy('http://wordpressboilerplate.local')
+    .proxy('http://wordpresstest.local')
 
     /**
      * Development URL
      */
-    .serve('http://wordpressboilerplate.local:3000');
+    .serve('http://wordpresstest.local:3000');
 };
