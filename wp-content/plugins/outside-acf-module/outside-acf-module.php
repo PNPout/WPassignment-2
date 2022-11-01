@@ -215,6 +215,14 @@ class OutsideAcfModule{
                             //     $asData = $this->getAssets();
                             //     print_r($data);
                             // }
+                            'supports' => array(
+                                'jsx' => false,
+                                'spacing' => array(
+                                    'margin' => true,
+                                    'padding' => true,
+                                    'blockGap' => true
+                                ),
+                            ),
                         ];
                         $data['example']['attributes'] = array(
                             'mode' => 'preview',
