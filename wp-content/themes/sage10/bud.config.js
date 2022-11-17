@@ -134,6 +134,7 @@ module.exports = async (app) => {
 
     .entry({
       app: ['@scripts/app', '@styles/app'],
+      styleguide: ['@styles/styleguide'],
       editor: ['@scripts/editor', '@styles/editor'],
     })
 
