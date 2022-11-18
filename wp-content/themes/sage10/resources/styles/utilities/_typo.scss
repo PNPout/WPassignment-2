@@ -86,7 +86,6 @@ h6,
 h5,
 .h5,
 .body-1,
-.form-control,
 .btn.dropdown-toggle {
   font-size: 2rem;
   line-height: 2.5rem;
@@ -98,7 +97,6 @@ h5,
 }
 
 .body-1,
-.form-control,
 .btn.dropdown-toggle {
   @include media-breakpoint-down(sm) {
     font-size: 1.8rem;
@@ -117,80 +115,6 @@ h6,
   }
 }
 
-.sub-header {
-  font-size: 2.4rem;
-  line-height: 3.2rem;
-
-  @include media-breakpoint-up(lg) {
-    font-size: 3.2rem;
-    line-height: 3.6rem;
-  }
-}
-
-.subheadline {
-  &-2-medium {
-    font-size: 2rem;
-    line-height: 1.5;
-    font-weight: $font-weight-normal;
-    @include media-breakpoint-up(lg) {
-      font-size: 2.6rem;
-      line-height: 1.38;
-    }
-  }
-  &-2-semibold {
-    font-size: 1.8rem;
-    line-height: 1.39;
-
-    @include media-breakpoint-up(sm) {
-      font-size: 2rem;
-      line-height: 1.5;
-    }
-    @include media-breakpoint-up(lg) {
-      font-size: 2.6rem;
-    }
-  }
-  &-3 {
-    font-size: 1.6rem;
-    line-height: 1.25;
-
-    @include media-breakpoint-up(lg) {
-      font-size: 2rem;
-      line-height: 1.2;
-    }
-  }
-  &-4 {
-    font-size: 1.4rem;
-    line-height: 1.43;
-
-    @include media-breakpoint-up(lg) {
-      font-size: 1.6rem;
-      line-height: 1.25;
-    }
-
-    &-medium {
-      font-weight: $font-weight-normal;
-      font-size: 1.4rem;
-      line-height: 1.43;
-      @include media-breakpoint-up(lg) {
-        font-size: 1.6rem;
-        line-height: 1.25;
-      }
-    }
-  }
-}
-
-.mega-link {
-  font-size: 2.4rem;
-  line-height: 3rem;
-  @extend %heading;
-
-  @include media-breakpoint-up(lg) {
-    font-size: 3rem;
-    line-height: 3rem;
-  }
-}
-
-.body-2,
 body {
   font-size: 1.6rem;
   line-height: 2.2rem;
@@ -206,64 +130,12 @@ body {
   }
 }
 
-.body-3 {
-  font-size: 1.4rem;
-  line-height: 2rem;
-  @include media-breakpoint-up(md) {
-    font-size: 1.6rem;
-    line-height: 2.2rem;
-  }
-  @include media-breakpoint-up(lg) {
-    font-size: 1.8rem;
-    line-height: 2.4rem;
-  }
-}
-
-.body-4 {
-  font-size: 1.2rem;
-  line-height: 1.6rem;
-
-  @include media-breakpoint-up(md) {
-    font-size: 1.4rem;
-    line-height: 2rem;
-  }
-
-  @include media-breakpoint-up(lg) {
-    font-size: 1.6rem;
-    line-height: 2rem;
-  }
-}
-
 .eyebrow {
-  &-1 {
-    font-size: 1.4rem;
-    line-height: 1;
+  font-size: 1.4rem;
+  line-height: 1;
 
-    @include media-breakpoint-up(lg) {
-      font-size: 1.6rem;
-    }
-  }
-  &-2 {
-    font-size: 1.2rem;
-    line-height: normal;
-
-    @include media-breakpoint-up(lg) {
-      font-size: 1.4rem;
-    }
-  }
-  &-3 {
+  @include media-breakpoint-up(lg) {
     font-size: 1.6rem;
-    line-height: normal;
-    font-weight: $font-weight-normal;
-    text-transform: uppercase;
-  }
-  &-4 {
-    font-size: 1.2rem;
-    line-height: normal;
-
-    @include media-breakpoint-up(md) {
-      font-size: 1.3rem;
-    }
   }
 }
 
@@ -278,30 +150,6 @@ body {
   }
 }
 
-.button,
-.btn {
-  font-size: 1.8rem;
-  line-height: 1.6rem;
-
-  @include media-breakpoint-up(lg) {
-    font-size: 1.9rem;
-    line-height: 1.7rem;
-  }
-}
-
-.link {
-  &-text {
-    font-size: 2rem;
-    line-height: 2rem;
-    font-weight: $font-weight-bold;
-
-    @include media-breakpoint-up(lg) {
-      font-size: 2.4rem;
-      line-height: 1.8rem;
-    }
-  }
-}
-
 .caption {
   font-size: 1.2rem;
   line-height: 1.6rem;
@@ -312,21 +160,5 @@ body {
   @include media-breakpoint-up(lg) {
     font-size: 1.4rem;
     line-height: 1.8rem;
-  }
-}
-
-.number-label {
-  &-1 {
-    font-size: 3.2rem;
-    line-height: 1.25;
-
-    @include media-breakpoint-up(lg) {
-      font-size: 4.6rem;
-      line-height: 1.22;
-    }
-  }
-  &-2 {
-    font-size: 1.6rem;
-    line-height: 1.25;
   }
 }
