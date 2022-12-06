@@ -7,7 +7,7 @@ Version: 1.0
 Author: Outside
 Author URI: http://Outside.tech
 License: GPLv2 or later
-*/
+*/ 
 class Outside_Security_Implementation
 {
     public function __construct() {
@@ -19,7 +19,7 @@ class Outside_Security_Implementation
     public function add_actions() {
         add_action( 'admin_init',  array($this, 'outside_security_fields') );
 
-//        add_action( 'add_meta_boxes', array($this, 'meta_init') );
+        // add_action( 'add_meta_boxes', array($this, 'meta_init') );
         add_action( 'admin_menu', array($this,'outside_security_page') );
 
         add_action( 'admin_notices', array($this, 'outside_security_notice') );
@@ -88,6 +88,7 @@ class Outside_Security_Implementation
             $headers['cache-control']               = 'no-cache, no-store, must-revalidate';//'max-age=2592000';
             $headers['cross-origin-resource-policy']= 'same-origin';
             $headers['Access-Control-Allow-Origin'] = 'same-origin';
+            $headers['Permissions-Policy'] = 'geolocation=(self "'.site_url().'"), microphone=()';
             return $headers;
         }
     }
