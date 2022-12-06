@@ -4,17 +4,14 @@ html {
 
 html,
 body {
-  height: auto;
+  height: 100%;
   font-size: 10px;
   position: relative;
-  -webkit-overflow-scrolling: touch;
-  // Makes the smooth scrolling on ios devices
 }
 
 body {
   letter-spacing: normal;
   @include font-smoothing(on);
-  transition: background-color 1s ease;
 
   &.prevent-scrolling {
     @extend .overflow-hidden, .position-fixed, .w-100;
@@ -28,6 +25,7 @@ a {
 
   &:hover,
   &:focus {
+    text-decoration: none;
     color: inherit;
   }
 }
@@ -41,22 +39,20 @@ button,
 p {
   margin-bottom: 3.2rem;
 
-  &:last-child {
-    @extend .mb-0;
+  &:last-of-type {
+    margin-bottom: 0;
   }
 }
 
 ul,
 ol {
-  margin-bottom: 0;
+  padding-left: 2.2rem;
 
   > li {
+    margin-bottom: 2.4rem;
+
     &:last-child {
       margin-bottom: 0;
-    }
-
-    &::marker {
-      color: $primary;
     }
   }
 }
@@ -70,12 +66,17 @@ figure {
   margin-bottom: 0;
 }
 
+img {
+  @extend .mw-100;
+}
+
 button,
 .btn,
 .btn-link {
   text-decoration: none;
 
   &:hover {
+    text-decoration: none;
     outline: none;
   }
 }
@@ -87,9 +88,7 @@ input:-webkit-autofill:active {
   box-shadow: 0 0 0 13rem $white inset !important;
 }
 
-#view-main {
-  //height: 100vh;
-  //overflow: auto;
-  position: relative;
-  background-color: $white;
+/* purgecss start ignore */
+div[id^='__lpform_'] {
+  display: none;
 }
