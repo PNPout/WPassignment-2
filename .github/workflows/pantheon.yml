@@ -43,8 +43,7 @@ jobs:
           cd ../../../
           ./vendor/bin/terminus auth:login --machine-token="${{ secrets.PANTHEON_MACHINE_TOKEN }}"
           git fetch --unshallow origin
-          # ./vendor/bin/terminus env:clone-content "${{ secrets.TERMINUS_SITE }}".dev dev
-          ./vendor/bin/terminus build:env:push -n "${{ secrets.TERMINUS_SITE }}".dev
+          ./vendor/bin/terminus env:deploy -n "${{ secrets.TERMINUS_SITE }}".dev
 
       - name: multi-dev to Pantheon for PR
         if: github.event_name == 'pull_request' && success()
@@ -54,11 +53,11 @@ jobs:
           git fetch --unshallow origin
           ./vendor/bin/terminus auth:login --machine-token="${{ secrets.PANTHEON_MACHINE_TOKEN }}"
           export PULL_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          ./vendor/bin/terminus build:env:create -n "${{ secrets.TERMINUS_SITE }}".dev pr-$PULL_NUMBER
+          ./vendor/bin/terminus multidev:create -n "${{ secrets.TERMINUS_SITE }}".dev pr-"${{ github.event.number }}"
 
       - name: Delete old pr in multi-dev
         env:
           GITHUB_TOKEN: ${{ secrets.GHUB_PERSONAL_TOKEN }}
         run: |
           ./vendor/bin/terminus auth:login --machine-token="${{ secrets.PANTHEON_MACHINE_TOKEN }}"
-          ./vendor/bin/terminus build:env:delete:pr -n "${{ secrets.TERMINUS_SITE }}" --yes
+          ./vendor/bin/terminus multidev:delete "${{ secrets.TERMINUS_SITE }}".pr-"${{ github.event.number }}" -n  --yes
