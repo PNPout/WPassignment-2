@@ -43,7 +43,6 @@ jobs:
           cd ../../../
           ./vendor/bin/terminus auth:login --machine-token="${{ secrets.PANTHEON_MACHINE_TOKEN }}"
           commit_message=$(git log -1 --pretty=%B)
-          git fetch --unshallow origin
           rm -rf .git
           rm -rf .github
           git init
