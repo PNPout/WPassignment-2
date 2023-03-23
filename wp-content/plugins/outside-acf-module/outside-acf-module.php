@@ -7,14 +7,17 @@
  * Author: Outside
  * Author URI: https://outside.tech
  */
+
 namespace App;
+
 use function Roots\bundle;
-class OutsideAcfModule{
+
+class OutsideAcfModule
+{
     private $assetsData;
 
     public function __construct()
     {
-
         if (! function_exists('acf_register_block_type')) {
             return;
         }
@@ -25,257 +28,250 @@ class OutsideAcfModule{
             return;
         }
 
-        add_filter('outside-sage-acf-gutenberg-blocks-templates', function () {
-            return ['views/blocks'];
-        });
+        if(isSage10()):
+            add_filter('outside-sage-acf-gutenberg-blocks-templates', function () {
+                return ['views/blocks'];
+            });
 
 
-        /**
-         * style update in header
-         */
-        add_action('wp_enqueue_scripts', function () {
-            $directories = apply_filters('outside-sage-acf-gutenberg-blocks-templates', []);
-            
-            $id = get_the_ID();
-            foreach ($directories as $directory) {
-                $dir = isSage10() ? \Roots\resource_path($directory) : \locate_template($directory);
-                
-                // Sanity check whether the directory we're iterating over exists first
-                if (!file_exists($dir)) {
-                    return;
-                }
-                $template_directory = new \DirectoryIterator($dir);
-                foreach ($template_directory as $template) {
-                    
-                    // print_r($template);
-                    if (!$template->isDot() && !$template->isDir()) {
-                        
-                        // Strip the file extension to get the slug
-                        $slug = removeBladeExtension($template->getFilename());
-                        // If there is no slug (most likely because the filename does
-                        // not end with ".blade.php", move on to the next file.
-                        if (!$slug) {
-                            continue;
-                        }
+            /**
+             * style update in header
+             */
+            add_action('wp_enqueue_scripts', function () {
+                $directories = apply_filters('outside-sage-acf-gutenberg-blocks-templates', []);
 
+                $id = get_the_ID();
+                foreach ($directories as $directory) {
+                    $dir = isSage10() ? \Roots\resource_path($directory) : \locate_template($directory);
 
-
-                        // Get header info from the found template file(s)
-                        $file = "${dir}/${slug}.blade.php";
-                        $file_path = file_exists($file) ? $file : '';
-                        $cssFilePath = "styles/${slug}.css";
-                        $cssFilePathDev = "styles/${slug}.js";
-                        $jsFilePath = "scripts/${slug}.js";
-
-                        if ( checkFileExists( $cssFilePath ) ) {
-                            if ( has_block('acf/'.$slug , $id) ) {
-                                wp_enqueue_style($cssFilePath , checkAssetPath($cssFilePath), false, null);
-                            }
-                        }
-
-                        if ( checkFileExists( $jsFilePath ) ) {
-                            if ( has_block('acf/'.$slug , $id) ) {
-                                wp_enqueue_script( $jsFilePath, checkAssetPath($jsFilePath), array('jquery'), '', true );
-                            }
-                        }
-
-                        /**
-                         * Asset enqueue for development purpose
-                         * 
-                         */
-                        $devModulesPath = "dev/${slug}.js";
-                        if ( checkFileExists( $devModulesPath ) ) {
-                            if ( has_block('acf/'.$slug , $id) ) {
-                                wp_enqueue_script( $devModulesPath, checkAssetPath($devModulesPath), array('jquery'), '', true );
-                            }
-                        }
-
-                        // $file = 'modules/'
-                        // if (checkFileExists($file)) {
-                        //     wp_enqueue_script($file, checkAssetPath($file), array('jquery'), '', true);
-                        // }
-
-                        // if ( checkFileExists( $cssFilePathDev ) ) {
-                        //     if ( has_block('acf/'.$slug , $id) ) {
-                        //         wp_enqueue_script( $cssFilePathDev, checkAssetPath($cssFilePathDev), array('jquery'), '', true );
-                        //     }
-                        // }
-
-
+                    // Sanity check whether the directory we're iterating over exists first
+                    if (!file_exists($dir)) {
+                        return;
                     }
-                }
-
-            }
-
-        },1000);
-
-        /**
-         * Create blocks based on templates found in Sage's "views/blocks" directory
-        */
-        add_action('acf/init', function () {
-
-            // Global $sage_error so we can throw errors in the typical sage manner
-            global $sage_error;
-            global $enqueData;
-            // Get an array of directories containing blocks
-            $directories = apply_filters('outside-sage-acf-gutenberg-blocks-templates', []);
-
-            // Check whether ACF exists before continuing
-            foreach ($directories as $directory) {
-                $dir = isSage10() ? \Roots\resource_path($directory) : \locate_template($directory);
-    
-                // Sanity check whether the directory we're iterating over exists first
-                if (!file_exists($dir)) {
-                    return;
-                }
-    
-                // Iterate over the directories provided and look for templates
-                $template_directory = new \DirectoryIterator($dir);
-    
-                foreach ($template_directory as $template) {
-                    if (!$template->isDot() && !$template->isDir()) {
-    
-                        // Strip the file extension to get the slug
-                        $slug = removeBladeExtension($template->getFilename());
-                        // If there is no slug (most likely because the filename does
-                        // not end with ".blade.php", move on to the next file.
-                        if (!$slug) {
-                            continue;
-                        }
-    
-                        // Get header info from the found template file(s)
-                        $file = "${dir}/${slug}.blade.php";
-                        $file_path = file_exists($file) ? $file : '';
-                        $file_headers = get_file_data($file_path, [
-                            'title' => 'Title',
-                            'description' => 'Description',
-                            'category' => 'Category',
-                            'icon' => 'Icon',
-                            'keywords' => 'Keywords',
-                            'mode' => 'Mode',
-                            'align' => 'Align',
-                            'post_types' => 'PostTypes',
-                            'supports_align' => 'SupportsAlign',
-                            'supports_anchor' => 'SupportsAnchor',
-                            'supports_mode' => 'SupportsMode',
-                            'supports_jsx' => 'SupportsInnerBlocks',
-                            'supports_align_text' => 'SupportsAlignText',
-                            'supports_align_content' => 'SupportsAlignContent',
-                            'supports_multiple' => 'SupportsMultiple',
-                            'enqueue_style'     => 'EnqueueStyle',
-                            'enqueue_script'    => 'EnqueueScript',
-                            'enqueue_assets'    => 'EnqueueAssets',
-                            'enqueue_assetsCSS'    => 'EnqueueAssetsCSS',
-                            'enqueue_assetsJS'    => 'EnqueueAssetsJS',
-                        ]);
-                        // $enqueData = array(
-                        //     'styles' => $file_headers['enqueue_assetsCSS'],
-                        //     'scripts' => $file_headers['enqueue_assetsJS']
-                        // );
-                        // $this->setAssets($enqueData);
+                    $template_directory = new \DirectoryIterator($dir);
+                    foreach ($template_directory as $template) {
+                        // print_r($template);
+                        if (!$template->isDot() && !$template->isDir()) {
+                            // Strip the file extension to get the slug
+                            $slug = removeBladeExtension($template->getFilename());
+                            // If there is no slug (most likely because the filename does
+                            // not end with ".blade.php", move on to the next file.
+                            if (!$slug) {
+                                continue;
+                            }
 
 
-                        
-                        if (empty($file_headers['title'])) {
-                            $sage_error(__('This block needs a title: ' . $dir . '/' . $template->getFilename(), 'sage'), __('Block title missing', 'sage'));
-                        }
-    
-                        if (empty($file_headers['category'])) {
-                            $sage_error(__('This block needs a category: ' . $dir . '/' . $template->getFilename(), 'sage'), __('Block category missing', 'sage'));
-                        }
-    
-                        // Checks if dist contains this asset, then enqueues the dist version.
-                        if (!empty($file_headers['enqueue_style'])) {
-                            $this->checkAssetPath($file_headers['enqueue_style']);
-                        }
-    
-                        if (!empty($file_headers['enqueue_script'])) {
-                            $this->checkAssetPath($file_headers['enqueue_script']);
-                        }
-                        
-                        // Set up block data for registration
-                        $data = [
-                            'name' => $slug,
-                            'title' => $file_headers['title'],
-                            'description' => $file_headers['description'],
-                            'category' => $file_headers['category'],
-                            'icon' => $file_headers['icon'],
-                            'keywords' => explode(' ', $file_headers['keywords']),
-                            'mode' => $file_headers['mode'],
-                            'align' => $file_headers['align'],
-                            'additionalAssets' => array(
-                                'styles' => $file_headers['enqueue_assetsCSS'],
-                                'scripts' => $file_headers['enqueue_assetsJS']
-                            ),
-                            'render_callback'  => __NAMESPACE__.'\\sage_blocks_callback',
-                            'enqueue_style'   => $file_headers['enqueue_style'],
-                            'enqueue_script'  => $file_headers['enqueue_script'],
-                            'enqueue_assets'  => __NAMESPACE__.'\\assetsEnqueue',
-                            // 'enqueue_assets'  => function($data){
-                            //     $asData = $this->getAssets();
-                            //     print_r($data);
+
+                            // Get header info from the found template file(s)
+                            $file = "${dir}/${slug}.blade.php";
+                            $file_path = file_exists($file) ? $file : '';
+                            $cssFilePath = "styles/${slug}.css";
+                            $cssFilePathDev = "styles/${slug}.js";
+                            $jsFilePath = "scripts/${slug}.js";
+
+                            if (checkFileExists($cssFilePath)) {
+                                if (has_block('acf/'.$slug, $id)) {
+                                    wp_enqueue_style($cssFilePath, checkAssetPath($cssFilePath), false, null);
+                                }
+                            }
+
+                            if (checkFileExists($jsFilePath)) {
+                                if (has_block('acf/'.$slug, $id)) {
+                                    wp_enqueue_script($jsFilePath, checkAssetPath($jsFilePath), array('jquery'), '', true);
+                                }
+                            }
+
+                            /**
+                             * Asset enqueue for development purpose
+                             *
+                             */
+                            $devModulesPath = "dev/${slug}.js";
+                            if (checkFileExists($devModulesPath)) {
+                                if (has_block('acf/'.$slug, $id)) {
+                                    wp_enqueue_script($devModulesPath, checkAssetPath($devModulesPath), array('jquery'), '', true);
+                                }
+                            }
+
+                            // $file = 'modules/'
+                            // if (checkFileExists($file)) {
+                            //     wp_enqueue_script($file, checkAssetPath($file), array('jquery'), '', true);
                             // }
-                            'supports' => array(
-                                'jsx' => false,
-                                'spacing' => array(
-                                    'margin' => true,
-                                    'padding' => true,
-                                    'blockGap' => true
-                                ),
-                            ),
-                        ];
-                        $data['example']['attributes'] = array(
-                            'mode' => 'preview',
-                            'data' => []
-                        );
 
-                        // If the PostTypes header is set in the template, restrict this block to those types
-                        if (!empty($file_headers['post_types'])) {
-                            $data['post_types'] = explode(' ', $file_headers['post_types']);
+                            // if ( checkFileExists( $cssFilePathDev ) ) {
+                            //     if ( has_block('acf/'.$slug , $id) ) {
+                            //         wp_enqueue_script( $cssFilePathDev, checkAssetPath($cssFilePathDev), array('jquery'), '', true );
+                            //     }
+                            // }
                         }
-    
-                        // If the SupportsAlign header is set in the template, restrict this block to those aligns
-                        if (!empty($file_headers['supports_align'])) {
-                            $data['supports']['align'] = in_array($file_headers['supports_align'], array('true', 'false'), true) ? filter_var($file_headers['supports_align'], FILTER_VALIDATE_BOOLEAN) : explode(' ', $file_headers['supports_align']);
-                        }
-    
-                        // If the SupportsMode header is set in the template, restrict this block mode feature
-                        if (!empty($file_headers['supports_anchor'])) {
-                            $data['supports']['anchor'] = $file_headers['supports_anchor'] === 'true' ? true : false;
-                        }
-    
-                        // If the SupportsMode header is set in the template, restrict this block mode feature
-                        if (!empty($file_headers['supports_mode'])) {
-                            $data['supports']['mode'] = $file_headers['supports_mode'] === 'true' ? true : false;
-                        }
-    
-                        // If the SupportsInnerBlocks header is set in the template, restrict this block mode feature
-                        if (!empty($file_headers['supports_jsx'])) {
-                        $data['supports']['jsx'] = $file_headers['supports_jsx'] === 'true' ? true : false;
-                        }
-    
-                        // If the SupportsAlignText header is set in the template, restrict this block mode feature
-                        if (!empty($file_headers['supports_align_text'])) {
-                        $data['supports']['align_text'] = $file_headers['supports_align_text'] === 'true' ? true : false;
-                        }
-    
-                        // If the SupportsAlignContent header is set in the template, restrict this block mode feature
-                        if (!empty($file_headers['supports_align_text'])) {
-                        $data['supports']['align_content'] = $file_headers['supports_align_content'] === 'true' ? true : false;
-                        }
-    
-                        // If the SupportsMultiple header is set in the template, restrict this block multiple feature
-                        if (!empty($file_headers['supports_multiple'])) {
-                            $data['supports']['multiple'] = $file_headers['supports_multiple'] === 'true' ? true : false;
-                        }
-    
-                        // Register the block with ACF
-                        \acf_register_block_type( apply_filters( "sage/blocks/$slug/register-data", $data ) );
                     }
                 }
-            }
+            }, 1000);
 
-        });
+            /**
+             * Create blocks based on templates found in Sage's "views/blocks" directory
+            */
+            add_action('acf/init', function () {
+                // Global $sage_error so we can throw errors in the typical sage manner
+                global $sage_error;
+                global $enqueData;
+                // Get an array of directories containing blocks
+                $directories = apply_filters('outside-sage-acf-gutenberg-blocks-templates', []);
+
+                // Check whether ACF exists before continuing
+                foreach ($directories as $directory) {
+                    $dir = isSage10() ? \Roots\resource_path($directory) : \locate_template($directory);
+
+                    // Sanity check whether the directory we're iterating over exists first
+                    if (!file_exists($dir)) {
+                        return;
+                    }
+
+                    // Iterate over the directories provided and look for templates
+                    $template_directory = new \DirectoryIterator($dir);
+
+                    foreach ($template_directory as $template) {
+                        if (!$template->isDot() && !$template->isDir()) {
+                            // Strip the file extension to get the slug
+                            $slug = removeBladeExtension($template->getFilename());
+                            // If there is no slug (most likely because the filename does
+                            // not end with ".blade.php", move on to the next file.
+                            if (!$slug) {
+                                continue;
+                            }
+
+                            // Get header info from the found template file(s)
+                            $file = "${dir}/${slug}.blade.php";
+                            $file_path = file_exists($file) ? $file : '';
+                            $file_headers = get_file_data($file_path, [
+                                'title' => 'Title',
+                                'description' => 'Description',
+                                'category' => 'Category',
+                                'icon' => 'Icon',
+                                'keywords' => 'Keywords',
+                                'mode' => 'Mode',
+                                'align' => 'Align',
+                                'post_types' => 'PostTypes',
+                                'supports_align' => 'SupportsAlign',
+                                'supports_anchor' => 'SupportsAnchor',
+                                'supports_mode' => 'SupportsMode',
+                                'supports_jsx' => 'SupportsInnerBlocks',
+                                'supports_align_text' => 'SupportsAlignText',
+                                'supports_align_content' => 'SupportsAlignContent',
+                                'supports_multiple' => 'SupportsMultiple',
+                                'enqueue_style'     => 'EnqueueStyle',
+                                'enqueue_script'    => 'EnqueueScript',
+                                'enqueue_assets'    => 'EnqueueAssets',
+                                'enqueue_assetsCSS'    => 'EnqueueAssetsCSS',
+                                'enqueue_assetsJS'    => 'EnqueueAssetsJS',
+                            ]);
+                            // $enqueData = array(
+                            //     'styles' => $file_headers['enqueue_assetsCSS'],
+                            //     'scripts' => $file_headers['enqueue_assetsJS']
+                            // );
+                            // $this->setAssets($enqueData);
+
+
+
+                            if (empty($file_headers['title'])) {
+                                $sage_error(__('This block needs a title: ' . $dir . '/' . $template->getFilename(), 'sage'), __('Block title missing', 'sage'));
+                            }
+
+                            if (empty($file_headers['category'])) {
+                                $sage_error(__('This block needs a category: ' . $dir . '/' . $template->getFilename(), 'sage'), __('Block category missing', 'sage'));
+                            }
+
+                            // Checks if dist contains this asset, then enqueues the dist version.
+                            if (!empty($file_headers['enqueue_style'])) {
+                                $this->checkAssetPath($file_headers['enqueue_style']);
+                            }
+
+                            if (!empty($file_headers['enqueue_script'])) {
+                                $this->checkAssetPath($file_headers['enqueue_script']);
+                            }
+
+                            // Set up block data for registration
+                            $data = [
+                                'name' => $slug,
+                                'title' => $file_headers['title'],
+                                'description' => $file_headers['description'],
+                                'category' => $file_headers['category'],
+                                'icon' => $file_headers['icon'],
+                                'keywords' => explode(' ', $file_headers['keywords']),
+                                'mode' => $file_headers['mode'],
+                                'align' => $file_headers['align'],
+                                'additionalAssets' => array(
+                                    'styles' => $file_headers['enqueue_assetsCSS'],
+                                    'scripts' => $file_headers['enqueue_assetsJS']
+                                ),
+                                'render_callback'  => __NAMESPACE__.'\\sage_blocks_callback',
+                                'enqueue_style'   => $file_headers['enqueue_style'],
+                                'enqueue_script'  => $file_headers['enqueue_script'],
+                                'enqueue_assets'  => __NAMESPACE__.'\\assetsEnqueue',
+                                // 'enqueue_assets'  => function($data){
+                                //     $asData = $this->getAssets();
+                                //     print_r($data);
+                                // }
+                                'supports' => array(
+                                    'jsx' => false,
+                                    'spacing' => array(
+                                        'margin' => true,
+                                        'padding' => true,
+                                        'blockGap' => true
+                                    ),
+                                ),
+                            ];
+                            $data['example']['attributes'] = array(
+                                'mode' => 'preview',
+                                'data' => []
+                            );
+
+                            // If the PostTypes header is set in the template, restrict this block to those types
+                            if (!empty($file_headers['post_types'])) {
+                                $data['post_types'] = explode(' ', $file_headers['post_types']);
+                            }
+
+                            // If the SupportsAlign header is set in the template, restrict this block to those aligns
+                            if (!empty($file_headers['supports_align'])) {
+                                $data['supports']['align'] = in_array($file_headers['supports_align'], array('true', 'false'), true) ? filter_var($file_headers['supports_align'], FILTER_VALIDATE_BOOLEAN) : explode(' ', $file_headers['supports_align']);
+                            }
+
+                            // If the SupportsMode header is set in the template, restrict this block mode feature
+                            if (!empty($file_headers['supports_anchor'])) {
+                                $data['supports']['anchor'] = $file_headers['supports_anchor'] === 'true' ? true : false;
+                            }
+
+                            // If the SupportsMode header is set in the template, restrict this block mode feature
+                            if (!empty($file_headers['supports_mode'])) {
+                                $data['supports']['mode'] = $file_headers['supports_mode'] === 'true' ? true : false;
+                            }
+
+                            // If the SupportsInnerBlocks header is set in the template, restrict this block mode feature
+                            if (!empty($file_headers['supports_jsx'])) {
+                                $data['supports']['jsx'] = $file_headers['supports_jsx'] === 'true' ? true : false;
+                            }
+
+                            // If the SupportsAlignText header is set in the template, restrict this block mode feature
+                            if (!empty($file_headers['supports_align_text'])) {
+                                $data['supports']['align_text'] = $file_headers['supports_align_text'] === 'true' ? true : false;
+                            }
+
+                            // If the SupportsAlignContent header is set in the template, restrict this block mode feature
+                            if (!empty($file_headers['supports_align_text'])) {
+                                $data['supports']['align_content'] = $file_headers['supports_align_content'] === 'true' ? true : false;
+                            }
+
+                            // If the SupportsMultiple header is set in the template, restrict this block multiple feature
+                            if (!empty($file_headers['supports_multiple'])) {
+                                $data['supports']['multiple'] = $file_headers['supports_multiple'] === 'true' ? true : false;
+                            }
+
+                            // Register the block with ACF
+                            \acf_register_block_type(apply_filters("sage/blocks/$slug/register-data", $data));
+                        }
+                    }
+                }
+            });
+        endif;
 
         /**
          * Callback to register blocks
@@ -313,12 +309,10 @@ class OutsideAcfModule{
                 $view = ltrim($directory, 'views/') . '/' . $slug;
 
                 if (isSage10()) {
-
                     if (\Roots\view()->exists($view)) {
                         // Use Sage's view() function to echo the block and populate it with data
                         echo \Roots\view($view, ['block' => $block]);
                     }
-
                 } else {
                     try {
                         // Use Sage 9's template() function to echo the block and populate it with data
@@ -343,7 +337,7 @@ class OutsideAcfModule{
                 return $matches[1];
             }
             // Return FALSE if the filename doesn't match the pattern.
-            return FALSE;
+            return false;
         }
 
         /**
@@ -361,7 +355,8 @@ class OutsideAcfModule{
             return $path = isSage10() ? \Roots\asset($path)->uri() : \App\asset_path($path);
         }
 
-        function checkFileExists($path) {
+        function checkFileExists($path)
+        {
             if (preg_match("/^(styles|scripts)/", $path)) {
                 $path = isSage10() ? \Roots\asset($path)->uri() : \App\asset_path($path);
                 $cssFilePath = $_SERVER['DOCUMENT_ROOT'] . parse_url($path, PHP_URL_PATH);
@@ -383,10 +378,11 @@ class OutsideAcfModule{
         }
 
         /**
-         * Asset Enqueue function 
-         * @data = 
+         * Asset Enqueue function
+         * @data =
          */
-        function assetsEnqueue($data) {
+        function assetsEnqueue($data)
+        {
             $enqueData = $data['additionalAssets'];
             /**
              * Style enqueue
@@ -397,32 +393,30 @@ class OutsideAcfModule{
                     // print_r($file);
                     //echo pathinfo($file, PATHINFO_EXTENSION);
                     $filePath = basename($file, ".css");
-                    
+
                     if (checkFileExists($file)) {
                         wp_enqueue_style($file, checkAssetPath($file), true, null);
                     }
-                    
+
                     $fileJs = 'styles/'.$filePath.'.js';
-                    if( checkFileExists($fileJs)) {
+                    if(checkFileExists($fileJs)) {
                         wp_enqueue_script($fileJs, checkAssetPath($fileJs), array('jquery'), '', true);
                     }
                 }
             }
-            
+
             /**
              * Script Enqueue
              */
             if (!empty($enqueData['scripts'])) {
                 $enqueAssetsFiles = explode(",", $enqueData['scripts']);
-                
+
                 foreach ($enqueAssetsFiles as $file) {
                     if (checkFileExists($file)) {
                         wp_enqueue_script($file, checkAssetPath($file), array('jquery'), '', true);
                     }
-
                 }
             }
-
         }
     }
     // public function setAssets($assetsFiles) {
@@ -431,8 +425,6 @@ class OutsideAcfModule{
     // public function getAssets() {
     //     return $this->assetsData;
     // }
-
-
 }
 
 new OutsideAcfModule();
