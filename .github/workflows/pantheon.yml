@@ -38,7 +38,7 @@ jobs:
           echo "StrictHostKeyChecking no" >> "$HOME/.ssh/config"
           mkdir -p $HOME/.terminus/plugins
           composer install
-          terminus self:plugin:install terminus-build-tools-plugin
+          ./vendor/bin/terminus self:plugin:install terminus-build-tools-plugin
           #composer create-project --no-dev -n -d $HOME/.terminus/plugins pantheon-systems/terminus-build-tools-plugin:^2.0.0-beta17
 
       - name: Deploy to Pantheon for branch
