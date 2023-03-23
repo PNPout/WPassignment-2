@@ -23,6 +23,18 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '16.14.0'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: Init git and pantheon
         if: success()
         run: |
@@ -55,16 +67,25 @@ jobs:
       - name: multi-dev to Pantheon for PR
         if: github.event_name == 'pull_request' && success()
         run: |
-          cd wp-content/themes/sage10 && composer install --no-dev -n -o && yarn install && yarn build
+          cd wp-content/themes/fusecorps && composer install --no-dev -n -o && yarn install && yarn build
           cd ../../../
           git fetch --unshallow origin
           ./vendor/bin/terminus auth:login --machine-token="${{ secrets.PANTHEON_MACHINE_TOKEN }}"
           export PULL_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          ./vendor/bin/terminus multidev:create -n "${{ secrets.TERMINUS_SITE }}".dev pr-"${{ github.event.number }}"
+          ./vendor/bin/terminus build:env:create -n "${{ secrets.TERMINUS_SITE }}".dev pr-$PULL_NUMBER
 
       - name: Delete old pr in multi-dev
         env:
           GITHUB_TOKEN: ${{ secrets.GHUB_PERSONAL_TOKEN }}
         run: |
           ./vendor/bin/terminus auth:login --machine-token="${{ secrets.PANTHEON_MACHINE_TOKEN }}"
-          ./vendor/bin/terminus multidev:delete "${{ secrets.TERMINUS_SITE }}".pr-"${{ github.event.number }}" -n  --yes
+          ./vendor/bin/terminus build:env:delete:pr -n "${{ secrets.TERMINUS_SITE }}" --yes
+      - name: Page Speed Insight
+        uses: JakePartusch/psi-action@v1.2
+        id: psi
+        with:
+          if: github.event_name == 'push' && success()
+          url: https://dev-${{ secrets.TERMINUS_SITE }}.pantheonsite.io/
+          threshold: 70
+          strategy: mobile
+          key: ${{ secrets.PSI_KEY }}
