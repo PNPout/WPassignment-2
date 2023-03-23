@@ -74,7 +74,6 @@ typings/
 .idea
 wp-content/uploads
 wp-content/upgrade
-wp-content/cache
 .htaccess
 .history
 
