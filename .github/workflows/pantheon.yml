@@ -42,7 +42,14 @@ jobs:
           cd wp-content/themes/sage10 && composer install --no-dev -n -o && yarn install && yarn build
           cd ../../../
           ./vendor/bin/terminus auth:login --machine-token="${{ secrets.PANTHEON_MACHINE_TOKEN }}"
+          commit_message=$(git log -1 --pretty=%B)
           git fetch --unshallow origin
+          rm -rf .git
+          rm -rf .github
+          git init
+          git config --local gc.auto 0
+          git add --force .
+          git commit -m "Automated deploy: $commit_message" >/dev/null
           ./vendor/bin/terminus env:commit -n "${{ secrets.TERMINUS_SITE }}".dev
           
 
