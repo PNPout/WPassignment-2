@@ -57,7 +57,6 @@ jobs:
           git remote add pantheon $pantheon_repo
           git push --force pantheon HEAD:master
           #./vendor/bin/terminus env:commit -n "${{ secrets.TERMINUS_SITE }}".dev
-          
 
       - name: multi-dev to Pantheon for PR
         if: github.event_name == 'pull_request' && success()
