@@ -38,7 +38,8 @@ jobs:
           echo "StrictHostKeyChecking no" >> "$HOME/.ssh/config"
           mkdir -p $HOME/.terminus/plugins
           composer install
-          composer create-project --no-dev -n -d $HOME/.terminus/plugins pantheon-systems/terminus-build-tools-plugin:^2.0.0-beta17
+          terminus self:plugin:install terminus-build-tools-plugin
+          #composer create-project --no-dev -n -d $HOME/.terminus/plugins pantheon-systems/terminus-build-tools-plugin:^2.0.0-beta17
 
       - name: Deploy to Pantheon for branch
         if: github.event_name == 'push' && success()
@@ -48,15 +49,16 @@ jobs:
           ./vendor/bin/terminus auth:login --machine-token="${{ secrets.PANTHEON_MACHINE_TOKEN }}"
           commit_message=$(git log -1 --pretty=%B)
           git fetch --unshallow origin
-          rm -rf .git
-          rm -rf .github
-          git init
-          git config --local gc.auto 0
-          git add --force .
-          git commit -m "Automated deploy: $commit_message" >/dev/null
-          git remote add pantheon $pantheon_repo
-          git push -u pantheon HEAD:master
-          #./vendor/bin/terminus env:commit -n "${{ secrets.TERMINUS_SITE }}".dev
+          # rm -rf .git
+          # rm -rf .github
+          # git init
+          # git config --local gc.auto 0
+          # git add --force .
+          # git commit -m "Automated deploy: $commit_message" >/dev/null
+          # git remote add pantheon $pantheon_repo
+          # git push -u pantheon HEAD:master
+          # ./vendor/bin/terminus env:commit -n "${{ secrets.TERMINUS_SITE }}".dev
+          ./vendor/bin/terminus build:env:push -n "${{ secrets.TERMINUS_SITE }}".dev
 
       - name: multi-dev to Pantheon for PR
         if: github.event_name == 'pull_request' && success()
