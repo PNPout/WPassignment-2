@@ -43,7 +43,8 @@ jobs:
           cd ../../../
           ./vendor/bin/terminus auth:login --machine-token="${{ secrets.PANTHEON_MACHINE_TOKEN }}"
           git fetch --unshallow origin
-          ./vendor/bin/terminus env:deploy -n "${{ secrets.TERMINUS_SITE }}".dev
+          ./vendor/bin/terminus env:commit -n "${{ secrets.TERMINUS_SITE }}".dev
+          
 
       - name: multi-dev to Pantheon for PR
         if: github.event_name == 'pull_request' && success()
