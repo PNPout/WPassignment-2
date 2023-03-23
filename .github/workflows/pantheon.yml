@@ -53,10 +53,10 @@ jobs:
           git init
           git config --local gc.auto 0
           git add --force .
-          #git commit -m "Automated deploy: $commit_message" >/dev/null
-          #git remote add pantheon $pantheon_repo
-          #git push --force pantheon HEAD:master
-          ./vendor/bin/terminus env:commit -n "${{ secrets.TERMINUS_SITE }}".dev
+          git commit -m "Automated deploy: $commit_message" >/dev/null
+          git remote add pantheon $pantheon_repo
+          git push -u pantheon HEAD:master
+          #./vendor/bin/terminus env:commit -n "${{ secrets.TERMINUS_SITE }}".dev
 
       - name: multi-dev to Pantheon for PR
         if: github.event_name == 'pull_request' && success()
