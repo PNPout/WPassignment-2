@@ -26,6 +26,7 @@ jobs:
       - name: Init git and pantheon
         if: success()
         run: |
+          cp .gitignoreBuild .gitignore
           git config --global user.email "${{ github.actor }}@noreply.github.com"
           git config --global user.name "${{ github.actor }}"
           git config --global core.fileMode false
@@ -49,15 +50,6 @@ jobs:
           ./vendor/bin/terminus auth:login --machine-token="${{ secrets.PANTHEON_MACHINE_TOKEN }}"
           commit_message=$(git log -1 --pretty=%B)
           git fetch --unshallow origin
-          # rm -rf .git
-          # rm -rf .github
-          # git init
-          # git config --local gc.auto 0
-          # git add --force .
-          # git commit -m "Automated deploy: $commit_message" >/dev/null
-          # git remote add pantheon $pantheon_repo
-          # git push -u pantheon HEAD:master
-          # ./vendor/bin/terminus env:commit -n "${{ secrets.TERMINUS_SITE }}".dev
           ./vendor/bin/terminus build:env:push -n "${{ secrets.TERMINUS_SITE }}".dev
 
       - name: multi-dev to Pantheon for PR
