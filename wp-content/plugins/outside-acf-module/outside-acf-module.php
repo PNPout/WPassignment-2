@@ -16,6 +16,7 @@ class OutsideAcfModule
 {
     private $assetsData;
 
+
     public function __construct()
     {
 
@@ -29,9 +30,10 @@ class OutsideAcfModule
             return;
         }
 
-        // if(! function_exists('customSage')) {
-        //     return;
-        // }
+        // TODO: Aayush to check the condition
+        //  if(! function_exists('customSage')) {
+        //      return;
+        //  }
 
         add_filter('outside-sage-acf-gutenberg-blocks-templates', function () {
             return ['views/blocks'];
@@ -291,6 +293,7 @@ class OutsideAcfModule
                             $data['supports']['multiple'] = $file_headers['supports_multiple'] === 'true' ? true : false;
                         }
 
+
                         // Register the block with ACF
                         \acf_register_block_type(apply_filters("sage/blocks/$slug/register-data", $data));
                     }
@@ -298,6 +301,8 @@ class OutsideAcfModule
             }
 
         });
+
+
 
         /**
          * Callback to register blocks

@@ -1,7 +1,0 @@
-// @include last-child() {
-// }
-@mixin last-child() {
-  &:last-of-type {
-    @content;
-  }
-}
