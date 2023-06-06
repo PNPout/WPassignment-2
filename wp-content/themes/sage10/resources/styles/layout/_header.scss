@@ -1,7 +1,7 @@
 .#{$global} {
   &-header {
     width: 100%;
-    background-color: black;
+    background-color: yellow;
     position: sticky;
     top: 0;
     left: 0;
@@ -13,6 +13,7 @@
     .search {
       font-size: 1.8rem;
       line-height: 1.6rem;
+
       position: relative;
       transition: width 450ms ease;
       display: flex;
@@ -48,16 +49,20 @@
         border: 0;
         cursor: pointer;
         padding: 0;
+
         &:hover {
           color: red;
         }
+
         i {
           font-size: 1.6rem;
           color: black;
+
           @include media-breakpoint-up(md) {
             font-size: 2.4rem;
           }
         }
+
         span {
           font-size: 1.2rem;
           line-height: 2.4rem;
@@ -70,6 +75,7 @@
         @include media-breakpoint-up(md) {
           width: 21.8rem;
         }
+
         .search-input {
           opacity: 1;
           z-index: initial;
@@ -79,6 +85,7 @@
           line-height: 2.4rem;
           //-webkit-appearance: none;
           border-radius: 0;
+
           &::placeholder {
             color: $gray-600;
           }
@@ -86,12 +93,15 @@
 
         .search-submit {
           color: red;
+
           span {
             display: none;
           }
+
           i {
             color: red;
           }
+
           &:focus-visible,
           &:hover,
           &:focus {

@@ -7,7 +7,7 @@ $time: 1.5s;
 }
 
 @keyframes blink {
-  from {
+  0% {
     opacity: 1;
   }
 
@@ -19,7 +19,7 @@ $time: 1.5s;
     opacity: 0;
   }
 
-  to {
+  100% {
     opacity: 0;
   }
 }

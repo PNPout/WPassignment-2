@@ -174,7 +174,6 @@ if (!defined('WP_DEBUG') && isset($_ENV['PANTHEON_ENVIRONMENT'])) {
 // Configure directory & filename of cached autoptimize files
 define('AUTOPTIMIZE_CACHE_CHILD_DIR','/uploads/autoptimize/');
 define('AUTOPTIMIZE_CACHEFILE_PREFIX','aggregated_');
-define( 'WPCF7_AUTOP', false );
 
 /* That's all, stop editing! Happy Pressing. */
 

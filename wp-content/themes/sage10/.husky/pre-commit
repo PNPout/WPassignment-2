@@ -1,3 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
-cd ./wp-content/themes/sage10/ && npx lint-staged npx lint-staged
+[ -n "$CI" ] && exit 0
+cd ./wp-content/themes/sage10/ && yarn lint-staged

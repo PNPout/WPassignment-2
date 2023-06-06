@@ -24,7 +24,6 @@ class App extends Composer
     {
         return [
             'siteName' => $this->siteName(),
-            'is_preview'  => is_admin() ? true : false,
         ];
     }
 

@@ -1,6 +1,3 @@
-<footer class="theme-footer position-relative mt-auto">
-  footer section
-  {{-- 
+<footer class="content-info">
   @php(dynamic_sidebar('sidebar-footer'))
-  --}}
 </footer>
