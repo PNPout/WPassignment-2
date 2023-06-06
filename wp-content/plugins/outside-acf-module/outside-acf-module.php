@@ -29,9 +29,9 @@ class OutsideAcfModule
             return;
         }
 
-        if(! function_exists('customSage')) {
-            return;
-        }
+        // if(! function_exists('customSage')) {
+        //     return;
+        // }
 
         add_filter('outside-sage-acf-gutenberg-blocks-templates', function () {
             return ['views/blocks'];
