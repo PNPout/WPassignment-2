@@ -47,6 +47,7 @@ export default async (app) => {
   const combinedModules = Object.entries(await bladefiles()).reduce((acc, [key, value]) => {
     acc[key] = value
       .map((fileName) => {
+        console.log(fileName);
         if (fileName != '') {
           if (fileName.split('.').pop() == 'js') {
             filePath = '@scripts/modules/';
@@ -54,7 +55,7 @@ export default async (app) => {
               filePath = '@scripts/';
             }
           } else {
-            filePath = '@styles/styles/';
+            filePath = '@styles/';
           }
           return path.join(filePath, fileName);
         } else {
@@ -97,8 +98,8 @@ export default async (app) => {
    */
   app
     .setUrl('http://localhost:3000')
-    .setProxyUrl('http://wordpress-boilerplate-upgrade.local')
-    .watch(['resources/views', 'app']);
+    .setProxyUrl('http://wordpress-boilerplate.local')
+    .watch(['resources/views', 'resources/styles', 'app']);
 
   /**
    * Generate WordPress `theme.json`

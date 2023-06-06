@@ -1,6 +1,6 @@
 {{--
     script[leadspace.js,banner.js,slider.js]script
-    style[styleguide.scss]style
+    style[modules/styleguide.scss]style
     Title: Styleguide
     Description: Styleguide
     Category: Styleguide
@@ -323,7 +323,7 @@
                                 <header class="mb-8">
                                     <h4 class="mb-0">Reusable Components</h4>
                                 </header>
-                                
+
                                 <div class="btn-group mb-8">
                                     <div class="mb-2">
                                         <button type="button" class="btn btn-primary">Primary</button>
@@ -365,7 +365,7 @@
                             </div>
                         </div>
                     </section>
-                    
+
                     <section class="content-wrap" id="forms">
                         <div class="row">
                             <div class="col">
@@ -525,7 +525,7 @@
                             </div>
                         </div>
                     </section>
-        
+
                 </div>
             </div>
         </div>
