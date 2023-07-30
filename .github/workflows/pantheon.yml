@@ -80,12 +80,12 @@ jobs:
         run: |
           ./vendor/bin/terminus auth:login --machine-token="${{ secrets.PANTHEON_MACHINE_TOKEN }}"
           ./vendor/bin/terminus build:env:delete:pr -n "${{ secrets.TERMINUS_SITE }}" --yes
-      # - name: Page Speed Insight
-      #   uses: JakePartusch/psi-action@v1.2
-      #   id: psi
-      #   with:
-      #     if: github.event_name == 'push' && success()
-      #     url: https://dev-${{ secrets.TERMINUS_SITE }}.pantheonsite.io/
-      #     threshold: 70
-      #     strategy: mobile
-      #     key: ${{ secrets.PSI_KEY }}
+      - name: Page Speed Insight
+        uses: JakePartusch/psi-action@v1.2
+        id: psi
+        with:
+          if: github.event_name == 'push' && success()
+          url: https://dev-${{ secrets.TERMINUS_SITE }}.pantheonsite.io/
+          threshold: 70
+          strategy: mobile
+          key: ${{ secrets.PSI_KEY }}
