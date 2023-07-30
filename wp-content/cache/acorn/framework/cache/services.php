@@ -3,19 +3,17 @@
   array (
     0 => 'Illuminate\\Bus\\BusServiceProvider',
     1 => 'Illuminate\\Cache\\CacheServiceProvider',
-    2 => 'Roots\\Acorn\\Assets\\AssetsServiceProvider',
-    3 => 'Roots\\Acorn\\Filesystem\\FilesystemServiceProvider',
+    2 => 'Illuminate\\Filesystem\\FilesystemServiceProvider',
+    3 => 'Illuminate\\View\\ViewServiceProvider',
     4 => 'Roots\\Acorn\\Providers\\AcornServiceProvider',
-    5 => 'Roots\\Acorn\\View\\ViewServiceProvider',
-    6 => 'App\\Providers\\ThemeServiceProvider',
+    5 => 'App\\Providers\\ThemeServiceProvider',
   ),
   'eager' => 
   array (
-    0 => 'Roots\\Acorn\\Assets\\AssetsServiceProvider',
-    1 => 'Roots\\Acorn\\Filesystem\\FilesystemServiceProvider',
+    0 => 'Illuminate\\Filesystem\\FilesystemServiceProvider',
+    1 => 'Illuminate\\View\\ViewServiceProvider',
     2 => 'Roots\\Acorn\\Providers\\AcornServiceProvider',
-    3 => 'Roots\\Acorn\\View\\ViewServiceProvider',
-    4 => 'App\\Providers\\ThemeServiceProvider',
+    3 => 'App\\Providers\\ThemeServiceProvider',
   ),
   'deferred' => 
   array (
