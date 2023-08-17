@@ -17,34 +17,34 @@ String.prototype.toKebabCase = function () {
   // Regular expression-based transformation to kebab case
 };
 ```
-### [Blade File Processing](#blade-file-processing)
+### [Blade File Processing](#blade-file-processing-1)
 The configuration includes a function, bladefiles(), responsible for processing Blade template files. Blade files are parsed to extract JavaScript and CSS entry points for different application modules.
 
-### [Module Entry Points](#module-entry-points)
+### [Module Entry Points](#module-entry-points-1)
 The bladefiles() function extracts JavaScript and CSS entry points from Blade template files and organizes them into module-specific collections. Each module's entry points are stored in the moduleEnPoints object.
 
-## [Application Entry Points](#application-entry-points)
+## [Application Entry Points](#application-entry-points-1)
 The app.entry() method is used to define application entry points for JavaScript and CSS files. Entry points represent distinct features or components of the application. Each entry point consists of an array of file paths.
 
-## [Asset Management](#asset-management)
+## [Asset Management](#asset-management-1)
 The app.assets() method specifies which directories should be included in the asset compilation process. In this configuration, the images directory is included for processing.
 
-## [File Watching](#file-watching)
+## [File Watching](#file-watching-1)
 The app.watch() method defines specific directories to watch for changes. When files within these directories are modified, the development server will trigger a page reload.
 
-## [Optimization](#optimization)
+## [Optimization](#optimization-1)
 Several methods are employed to optimize the output of the build process. These include minimizing output files, disabling file hashing, enabling code splitting, and configuring runtime behavior.
 
-## [Development Environment](#development-environment)
+## [Development Environment](#development-environment-1)
 The configuration sets up a development environment using the app.proxy() and app.serve() methods. It proxies requests to a specified origin and serves the project on a development server.
 
-## [Public Path Configuration](#public-path-configuration)
+## [Public Path Configuration](#public-path-configuration-1)
 The app.setPublicPath() method defines the URI path where compiled assets will be publicly accessible. This is useful for specifying the location of assets within a WordPress theme.
 
-## [WordPress Theme Configuration](#wordpress-theme-configuration)
+## [WordPress Theme Configuration](#wordpress-theme-configuration-1)
 The app.wpjson.settings() method configures the generation of a theme.json file for WordPress block editor styling. Various configuration options are provided for customizing colors, spacing, and typography.
 
-## [Enabling the Configuration](#enabling-the-configuration)
+## [Enabling the Configuration](#enabling-the-configuration-1)
 The configuration is enabled using the app.enable() method. Once enabled, the Bud.js configuration settings take effect, and the build process begins according to the defined rules.
 
 
