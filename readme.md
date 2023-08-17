@@ -30,6 +30,10 @@
 * After this same above process needs to be followed
 
 
+## CI/CD 
+For CI/CD please use appropriate files from this [branch](https://github.com/pagevamp/wordpress-boilerplate/pull/30/files#diff-9adf24fb4b11cd5ac4e4ac4b5ebf62d9c7d99d624caf77ed90dc33588d8800ab)
+
+
 ### Usefull Commands ###
 * `` composer install `` - to install framework dependencies
 * `` yarn `` - to install NPM dependencies
