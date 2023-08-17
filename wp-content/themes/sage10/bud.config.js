@@ -76,6 +76,7 @@ export default async (app) => {
   // console.log(combinedModules);
   app.entry('app', ['@scripts/app', '@styles/app']).entry('editor', ['@scripts/editor', '@styles/editor']);
   Object.entries(combinedModules).forEach((element) => {
+    if (!element[1]?.length) return;
     app.entry(...element);
     // console.log(element);
   });

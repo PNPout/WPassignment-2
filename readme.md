@@ -25,7 +25,7 @@
 * Install nvm( Node Version Manager) `` sudo apt install curl ``
 * curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
 * Install node latest version using nvm
-* nvm install 16.15.0
+* nvm install 18.12.1
 * Install yarn using command `` npm install --global yarn ``
 * After this same above process needs to be followed
 
