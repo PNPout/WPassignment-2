@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "bootstrap": "5.2.3",
-    "caniuse-lite": "^1.0.30001517",
+    "caniuse-lite": "^1.0.30001565",
     "purgecss-with-wordpress": "^4.1.0"
   }
 }

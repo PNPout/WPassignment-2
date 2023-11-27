@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'acf_admin_tools' ) ) :
-
+	#[AllowDynamicProperties]
 	class acf_admin_tools {
 
 
@@ -32,10 +32,9 @@ if ( ! class_exists( 'acf_admin_tools' ) ) :
 		function __construct() {
 
 			// actions
-			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+			add_action( 'admin_menu', array( $this, 'admin_menu' ), 15 );
 
 		}
-
 
 		/**
 		 *  register_tool
@@ -138,6 +137,8 @@ if ( ! class_exists( 'acf_admin_tools' ) ) :
 
 		function load() {
 
+			add_action( 'admin_body_class', array( $this, 'admin_body_class' ) );
+
 			// disable filters (default to raw data)
 			acf_disable_filters();
 
@@ -152,6 +153,18 @@ if ( ! class_exists( 'acf_admin_tools' ) ) :
 
 		}
 
+		/**
+		 * Modifies the admin body class.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param string $classes Space-separated list of CSS classes.
+		 * @return string
+		 */
+		public function admin_body_class( $classes ) {
+			$classes .= ' acf-admin-page';
+			return $classes;
+		}
 
 		/**
 		 *  include_tools
@@ -245,35 +258,33 @@ if ( ! class_exists( 'acf_admin_tools' ) ) :
 			}
 
 			// view
-			acf_get_view( 'html-admin-tools', $view );
+			acf_get_view( 'tools/tools', $view );
 
 		}
 
 
 		/**
-		 *  meta_box_html
+		 * Output the metabox HTML for specific tools
 		 *
-		 *  description
+		 * @since 5.6.3
 		 *
-		 *  @date    10/10/17
-		 *  @since   5.6.3
+		 * @param mixed $post    The post this metabox is being displayed on, should be an empty string always for us on a tools page.
+		 * @param array $metabox An array of the metabox attributes.
 		 *
-		 *  @param   n/a
-		 *  @return  n/a
+		 * @return void
 		 */
+		public function metabox_html( $post, $metabox ) {
+			$tool       = $this->get_tool( $metabox['args']['tool'] );
+			$form_attrs = array( 'method' => 'post' );
 
-		function metabox_html( $post, $metabox ) {
+			if ( $metabox['args']['tool'] === 'import' ) {
+				$form_attrs['onsubmit'] = 'acf.disableForm(event)';
+			}
 
-			// vars
-			$tool = $this->get_tool( $metabox['args']['tool'] );
-
-			?>
-		<form method="post">
-			<?php $tool->html(); ?>
-			<?php acf_nonce_input( $tool->name ); ?>
-		</form>
-			<?php
-
+			printf( '<form %s>', acf_esc_attrs( $form_attrs ) );
+			$tool->html();
+			acf_nonce_input( $tool->name );
+			echo '</form>';
 		}
 
 	}
@@ -342,6 +353,3 @@ function acf_get_admin_tool_url( $tool = '' ) {
 	return acf_get_admin_tools_url() . '&tool=' . $tool;
 
 }
-
-
-?>

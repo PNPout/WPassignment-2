@@ -21,10 +21,15 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 		function initialize() {
 
 			// vars
-			$this->name     = 'flexible_content';
-			$this->label    = __( 'Flexible Content', 'acf' );
-			$this->category = 'layout';
-			$this->defaults = array(
+			$this->name          = 'flexible_content';
+			$this->label         = __( 'Flexible Content', 'acf' );
+			$this->category      = 'layout';
+			$this->description   = __( 'Allows you to define, create and manage content with total control by creating layouts that contain subfields that content editors can choose from.', 'acf' ) . ' ' . __( 'We do not recommend using this field in ACF Blocks.', 'acf' );
+			$this->preview_image = acf_get_url() . '/assets/images/field-type-previews/field-preview-flexible-content.png';
+			$this->doc_url       = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/flexible-content/', 'docs', 'field-type-selection' );
+			$this->tutorial_url  = acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/resources/building-layouts-with-the-flexible-content-field-in-a-theme/', 'docs', 'field-type-selection' );
+			$this->pro           = true;
+			$this->defaults      = array(
 				'layouts'      => array(),
 				'min'          => '',
 				'max'          => '',
@@ -44,7 +49,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 			$this->add_field_filter( 'acf/get_sub_field', array( $this, 'get_sub_field' ), 10, 3 );
 			$this->add_field_filter( 'acf/prepare_field_for_export', array( $this, 'prepare_field_for_export' ) );
 			$this->add_field_filter( 'acf/prepare_field_for_import', array( $this, 'prepare_field_for_import' ) );
-
 		}
 
 
@@ -300,6 +304,10 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 				foreach ( $field['value'] as $i => $value ) :
 
 					// validate
+					if ( ! is_array( $value ) ) {
+						continue;
+					}
+
 					if ( empty( $layouts[ $value['acf_fc_layout'] ] ) ) {
 						continue;
 					}
@@ -339,7 +347,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 </div>
 			<?php
-
 		}
 
 
@@ -507,7 +514,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 </div>
 			<?php
-
 		}
 
 		/**
@@ -543,11 +549,14 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 				$layout_prefix = "{$field['prefix']}[layouts][{$layout['key']}]";
 
 				?>
-				<div class="acf-field acf-field-setting-fc_layout" data-name="fc_layout" data-setting="flexible_content" data-layout-label="<?php echo esc_attr( $layout['label'] ); ?>" data-id="<?php echo esc_attr( $layout['key'] ); ?>">
+				<div class="acf-field acf-field-setting-fc_layout" data-name="fc_layout" data-setting="flexible_content" data-layout-label="<?php echo esc_attr( $layout['label'] ); ?>" data-layout-name="<?php echo esc_attr( $layout['name'] ); ?>" data-id="<?php echo esc_attr( $layout['key'] ); ?>">
 					<div class="acf-label acf-field-settings-fc_head">
 						<div class="acf-fc_draggable">
-							<label class="reorder-layout"><?php esc_attr_e( 'Layout', 'acf' ); ?>
-							<span class="acf-fc-layout-name"></span></label>
+							<label class="acf-fc-layout-label reorder-layout"><?php esc_attr_e( 'Layout', 'acf' ); ?></label>
+						</div>
+
+						<div class="acf-fc-layout-name copyable">
+							<span class="layout-name"></span>
 						</div>
 
 						<ul class="acf-bl acf-fl-actions">
@@ -588,17 +597,18 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 							?>
 						</li>
-						<li class="acf-fc-meta-name acf-fc-meta-right">
+						<li class="acf-fc-meta-name acf-fc-meta-right copyable input-copyable">
 								<?php
 
 								acf_render_field(
 									array(
-										'type'    => 'text',
-										'name'    => 'name',
-										'class'   => 'layout-name',
-										'prefix'  => $layout_prefix,
-										'value'   => $layout['name'],
-										'prepend' => __( 'Name', 'acf' ),
+										'type'       => 'text',
+										'name'       => 'name',
+										'class'      => 'layout-name',
+										'input-data' => array( '1p-ignore' => 'true' ),
+										'prefix'     => $layout_prefix,
+										'value'      => $layout['name'],
+										'prepend'    => __( 'Name', 'acf' ),
 									)
 								);
 
@@ -668,7 +678,7 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 						'is_subfield' => true,
 					);
 
-					acf_get_view( 'field-group-fields', $args );
+					acf_get_view( 'acf-field-group/fields', $args );
 
 					?>
 					</div>
@@ -722,7 +732,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 					'name'         => 'button_label',
 				)
 			);
-
 		}
 
 
@@ -809,7 +818,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			// return
 			return $rows;
-
 		}
 
 
@@ -932,7 +940,7 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 				// vars
 				$error      = __( 'This field requires at least {min} {label} {identifier}', 'acf' );
-				$identifier = _n( 'layout', 'layouts', $min );
+				$identifier = _n( 'layout', 'layouts', $min, 'acf' );
 
 				// replace
 				$error = str_replace( '{min}', $min, $error );
@@ -972,7 +980,7 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 					}
 
 					// increase count
-					$layouts[ $l ]['count']++;
+					++$layouts[ $l ]['count'];
 
 					// bail if no sub fields
 					if ( empty( $layouts[ $l ]['sub_fields'] ) ) {
@@ -1011,7 +1019,7 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 					// vars
 					$error      = __( 'This field requires at least {min} {label} {identifier}', 'acf' );
-					$identifier = _n( 'layout', 'layouts', $min );
+					$identifier = _n( 'layout', 'layouts', $min, 'acf' );
 
 					// replace
 					$error = str_replace( '{min}', $min, $error );
@@ -1056,7 +1064,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			// return
 			return false;
-
 		}
 
 
@@ -1102,7 +1109,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			// return
 			return true;
-
 		}
 
 		/**
@@ -1194,7 +1200,7 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 				// loop through rows
 				foreach ( $value as $row ) {
-					$i++;
+					++$i;
 
 					// bail early if no layout reference
 					if ( ! is_array( $row ) || ! isset( $row['acf_fc_layout'] ) ) {
@@ -1239,7 +1245,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			// return
 			return $new_value;
-
 		}
 
 
@@ -1273,7 +1278,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 				$this->delete_row( $i, $field, $post_id );
 
 			}
-
 		}
 
 
@@ -1397,7 +1401,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			// return
 			return $field;
-
 		}
 
 
@@ -1446,7 +1449,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 			// echo
 			echo $title;
 			die;
-
 		}
 
 
@@ -1485,7 +1487,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			// return
 			return $title;
-
 		}
 
 
@@ -1518,7 +1519,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			// return
 			return $field;
-
 		}
 
 
@@ -1549,7 +1549,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			// return
 			return $field;
-
 		}
 
 		function prepare_any_field_for_export( $field ) {
@@ -1559,7 +1558,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			// return
 			return $field;
-
 		}
 
 
@@ -1645,7 +1643,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			// return
 			return $field;
-
 		}
 
 
@@ -1679,7 +1676,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			// return
 			return $field;
-
 		}
 
 		/**
@@ -1839,7 +1835,6 @@ if ( ! class_exists( 'acf_field_flexible_content' ) ) :
 
 			return $value;
 		}
-
 	}
 
 
