@@ -1,6 +1,6 @@
 // Scalable Typography
 // eg: @include rotate(45deg);
-
+/* stylelint-disable */
 @mixin interpolate($properties, $min-screen, $max-screen, $min-value, $max-value) {
   & {
     @each $property in $properties {
