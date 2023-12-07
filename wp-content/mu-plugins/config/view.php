@@ -30,7 +30,8 @@ return [
     */
 
     //'compiled' => env('VIEW_COMPILED_PATH', storage_path('framework/views')),
-    'compiled' => wp_upload_dir()['basedir'].'/sage-cache/acorn/framework/views',
+    // 'compiled' => wp_upload_dir()['basedir'].'/sage-cache/acorn/framework/views',
+    'compiled' => '/tmp/sage-cache',
 
     /*
     |--------------------------------------------------------------------------
