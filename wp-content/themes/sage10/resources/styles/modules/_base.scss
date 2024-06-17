@@ -152,11 +152,10 @@ button:hover,
   color: var(--color-blush);
 }
 .button__with-icon {
-  display: flex;
+  display: inline-flex;
   gap: 0.8rem;
   padding: 0.8rem 1.4rem 0.8rem 1.6rem;
-  align-items: center;
-  width: fit-content;
+  align-self: flex-start;
 }
 .button__icon {
   display: inline-flex; /*  vertically center icon */
