@@ -11,7 +11,6 @@
   gap: var(--spacing-inner);
   max-width: 144rem; /* temporary soultion for max-width, considering section might have background color in future */
   margin: 0 auto;
-  align-items: flex-start;
 }
 .footer__logo {
   width: 15.5rem;
@@ -24,6 +23,27 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-inner);
+}
+.footer__navs-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2.3rem;
+}
+.nav__links,
+.nav__link {
+  padding: 0;
+  margin: 0;
+}
+.nav__links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.nav__links--desktop {
+  display: none;
+}
+.nav__link a {
+  color: var(--color-white);
 }
 .button__border--white {
   border-color: var(--color-white);
@@ -51,4 +71,58 @@
   font-size: 1.8rem;
   line-height: 2.8rem;
   font-weight: 500;
+}
+.footer_empty {
+  display: none;
+}
+@media screen and (width >= 767px) {
+  .footer__wrapper {
+    padding: 8rem 4rem;
+  }
+  .footer__navs {
+    flex-flow: row wrap;
+  }
+  .footer__navs-wrap {
+    width: 46%;
+  }
+  .footer__navs--contact {
+    flex-direction: column;
+  }
+  .newsletter__form--footer {
+    flex-direction: row;
+    gap: 1.6rem;
+  }
+  .newsletter__form--footer input {
+    flex: 1;
+  }
+}
+
+/* style for desktop xl */
+
+@media screen and (width >= 1099px) {
+  .footer__wrapper {
+    padding: 8rem 8rem 15.8rem;
+  }
+  .footer__logo {
+    width: 27.325rem;
+  }
+  .nav__links--desktop {
+    display: flex;
+  }
+  .footer__navs {
+    justify-content: space-between;
+  }
+  .footer__navs-wrap {
+    flex: 1 20rem;
+  }
+  .footer__navs--contact {
+    flex-direction: row;
+  }
+  .footer__newsletter-wrapper {
+    flex: 2 42.4rem; // subtracting the gap
+  }
+  .footer_empty {
+    display: flex;
+    flex: 1 20rem;
+  }
 }
