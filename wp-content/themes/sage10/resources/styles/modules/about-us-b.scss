@@ -1,0 +1,59 @@
+@import './_base.scss';
+
+/* style for about us section for homepage */
+.about__wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 2.4rem;
+  gap: var(--spacing-inner);
+  max-width: 144rem; /* temporary soultion for max-width, considering section might have background color in future */
+  margin: 0 auto;
+  align-items: flex-start;
+}
+.about__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-inner);
+  flex: 1;
+}
+.about__image-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  background-color: var(--color-mint);
+  padding: 2.4rem;
+  flex: 1;
+}
+.about__image-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.about__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+/* style for tablet */
+@media screen and (width >= 767px) {
+  .about__wrapper {
+    flex-direction: row;
+    padding: var(--spacing-section) 4rem;
+  }
+}
+
+/* style for desktop xl */
+
+@media screen and (width >= 1099px) {
+  /* style for home about us */
+
+  .about__wrapper {
+    gap: 15rem;
+    padding: 12rem 8rem;
+  }
+}
+
+/* end */
