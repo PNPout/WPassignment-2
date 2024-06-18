@@ -4,7 +4,7 @@
 .about__wrapper {
   display: flex;
   flex-direction: column;
-  padding: 2.4rem;
+  padding: 4rem 2.4rem;
   gap: var(--spacing-inner);
   max-width: 144rem; /* temporary soultion for max-width, considering section might have background color in future */
   margin: 0 auto;

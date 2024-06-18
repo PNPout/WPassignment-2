@@ -152,14 +152,22 @@ button:hover,
   color: var(--color-blush);
 }
 .button__with-icon {
-  display: inline-flex;
+  display: flex;
   gap: 0.8rem;
   padding: 0.8rem 1.4rem 0.8rem 1.6rem;
-  align-self: flex-start;
+  align-items: center;
+  width: fit-content;
 }
 .button__icon {
   display: inline-flex; /*  vertically center icon */
   align-items: center;
+}
+input {
+  padding: 0.8rem 1.6rem;
+  border: 0.2rem solid var(--color-space);
+}
+input::placeholder {
+  font-style: italic;
 }
 
 /* style for desktop xl */
