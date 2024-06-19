@@ -21,8 +21,9 @@
 --}}
 
 <section class="slider-section">
+  <div class="sider-wrapper">
       <h6 class="slider-section__title">Our Team</h6>
-      <div class="swiper js-swiper sider-wrapper">
+      <div class="swiper js-swiper swiper-slider-wrapper">
         <div class="slider-cards-wrapper swiper-wrapper">
     @include('blocks.cards.slider-card', [
         'imgScr' => @asset('images/slider-image-1.jpg'),
@@ -58,5 +59,6 @@
           <path d="M17 8.17798L1 8.17798" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           </div>
+      </div>
       </div>
     </section>

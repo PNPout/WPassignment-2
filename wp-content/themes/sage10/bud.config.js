@@ -83,6 +83,17 @@ export default async (app) => {
 
   app.assets(['images']).minimize().hash(false).splitChunks().runtime('single');
 
+  /* Applying rules for post css */
+
+  app.purgecss({
+    content: [
+      app.path('resources/views/**'),
+      app.path('resources/scripts/**/*.{js,jsx,ts,tsx}'),
+      app.path('app/View/Composers/**'),
+    ],
+    safelist: [/swiper-/],
+  });
+
   /**
    * Set public path
    *
