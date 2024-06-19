@@ -1,0 +1,54 @@
+@import './base.scss';
+
+.footer-block {
+  background-color: var(--color-sky);
+  color: var(--color-white);
+}
+.footer__wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 2.4rem;
+  gap: var(--spacing-inner);
+  max-width: 144rem; /* temporary soultion for max-width, considering section might have background color in future */
+  margin: 0 auto;
+  align-items: flex-start;
+}
+.footer__logo {
+  width: 15.5rem;
+  aspect-ratio: 155/70;
+}
+.nav__title a {
+  color: var(--color-white);
+}
+.footer__navs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-inner);
+}
+.button__border--white {
+  border-color: var(--color-white);
+  color: var(--color-white);
+}
+.button__border--white:hover {
+  background-color: var(--color-white);
+  color: var(--color-sky);
+  border-color: var(--color-white);
+}
+.footer__newsletter-wrapper,
+.newsletter__form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+.newsletter__form--footer input,
+.newsletter__form--footer input:focus {
+  outline: none;
+  border-color: var(--color-white);
+}
+.newsletter__form--footer input,
+.newsletter__form--footer input::placeholder {
+  color: var(--color-white);
+  font-size: 1.8rem;
+  line-height: 2.8rem;
+  font-weight: 500;
+}
