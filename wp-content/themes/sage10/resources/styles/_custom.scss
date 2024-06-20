@@ -75,6 +75,7 @@
 
 // 2. Tools : Include remainder of required parts Tools
 @import './../../node_modules/bootstrap/scss/mixins';
+// @import './../../node_modules/bootstrap/scss/mixins/breakpoints';
 @import 'tools/mixins';
 @import 'tools/placeholders';
 
@@ -98,6 +99,8 @@
 @import './../../node_modules/bootstrap/scss/helpers';
 @import './../../node_modules/bootstrap/scss/list-group';
 @import './../../node_modules/bootstrap/scss/dropdown';
+@import './../../node_modules/bootstrap/scss/navbar';
+@import './../../node_modules/bootstrap/scss/offcanvas';
 @import './../../node_modules/bootstrap/scss/transitions';
 
 // 5 . Common Layout

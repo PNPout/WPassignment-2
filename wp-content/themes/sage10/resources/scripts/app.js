@@ -1,6 +1,7 @@
 import domReady from '@roots/sage/client/dom-ready';
-// import 'bootstrap/js/src/offcanvas.js'
-
+// import 'bootstrap/js/src/offcanvas.js';
+import './../../node_modules/bootstrap/js/src/offcanvas.js';
+import './../../node_modules/bootstrap/js/src/dropdown.js';
 /**
  * Application entrypoint
  */

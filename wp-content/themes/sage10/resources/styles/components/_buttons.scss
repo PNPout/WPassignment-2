@@ -3,12 +3,15 @@
   padding: 1.2rem 2.5rem;
   font-size: 2rem;
 }
-button,
-.button__fill {
+.button,
+button {
   appearance: unset;
   font-family: $font-family-body;
   font-size: 1.8rem;
   font-weight: $font-weight-semibold;
+}
+button,
+.button__fill {
   padding: 0.8rem 1.6rem;
   background-color: $sky;
   color: $white;
