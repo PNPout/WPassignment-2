@@ -72,3 +72,11 @@
     display: none;
   }
 }
+input {
+  padding: 0.8rem 1.6rem;
+  border: 0.2rem solid var(--color-space);
+
+  &::placeholder {
+    font-style: italic;
+  }
+}
