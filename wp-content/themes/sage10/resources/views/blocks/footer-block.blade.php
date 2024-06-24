@@ -92,4 +92,4 @@
         </div>
         <div class="footer-copyright">Site content copyright © 2021 Allowded Text</div>
     </div>
-</div>
+</footer>

@@ -1,0 +1,33 @@
+// @import './../../../node_modules/bootstrap/scss/variables';
+// @import './../../../node_modules/bootstrap/scss/offcanvas';
+// @import './../../../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../common';
+@import '../custom';
+@import '../../../node_modules/bootstrap/scss/close';
+@import '../../../node_modules/bootstrap/scss/variables';
+@import '../../../node_modules/bootstrap/scss/navbar';
+
+.sr-only {
+  background: $sky;
+  height: 3rem;
+  left: 0;
+  padding: 3rem;
+  position: absolute;
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+}
+.sr-only:focus {
+  transform: translateY(0%);
+}
+.header__logo {
+  aspect-ratio: 155 / 70;
+  width: 15.5rem;
+  @include media-breakpoint-up(lg) {
+    aspect-ratio: 272 / 124;
+    width: 27.2rem;
+  }
+}
+.header__nav-link:hover,
+.header__nav-link:focus {
+  color: $sky !important;
+}
