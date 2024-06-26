@@ -144,12 +144,34 @@ header {
 .header__nav-link:focus {
   color: $sky !important;
 }
-.header-right-nav__link {
-  font-size: 2.3rem;
-  font-weight: 700;
-  line-height: 140%;
+.header-right__button {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 2.8rem;
+  padding: 0.6rem 1.6rem;
+}
+.header-right-nav {
+  background-color: $teal !important;
   @include media-breakpoint-up(lg) {
-    font: inherit;
-    line-height: inherit;
+    background-color: transparent;
+  }
+  &__link {
+    font-size: 2.3rem;
+    font-weight: 700;
+    line-height: 140%;
+    color: $white;
+    @include media-breakpoint-up(lg) {
+      font: inherit;
+      line-height: inherit;
+      color: $space;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+      color: $peach;
+      @include media-breakpoint-up(lg) {
+        color: $teal;
+      }
+    }
   }
 }

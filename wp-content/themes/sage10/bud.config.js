@@ -117,6 +117,7 @@ export default async (app) => {
       /h-/,
       /border-/,
       /mt-/,
+      /my-/,
     ],
   });
 
