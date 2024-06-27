@@ -153,7 +153,7 @@ header {
 .header-right-nav {
   background-color: $teal !important;
   @include media-breakpoint-up(lg) {
-    background-color: transparent;
+    background-color: transparent !important;
   }
   &__link {
     font-size: 2.3rem;
@@ -164,6 +164,7 @@ header {
       font: inherit;
       line-height: inherit;
       color: $space;
+      letter-spacing: normal;
     }
     &:hover,
     &:focus,

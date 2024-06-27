@@ -34,11 +34,12 @@ EnqueueAssetsJS:
                 </div>
                 <div class="col-lg-8 d-none d-md-flex">
                     <div class="hero-block__content bg-white p-md-10 p-lg-20 border-success">
-                        <p class="h2">Look deep into nature, and then you will understand everything better.</p>
-                        <p class="body-text__xl">Contrary to popular belief, Lorem Ipsum is not simply random text. It has
+                        <p class="h2 pb-4 m-0">Look deep into nature, and then you will understand everything better.</p>
+                        <div class="body-text__xl post-basic">
+                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has
                             roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.
-                        </p>
-                        <a href="#" class="button button__border button__with-icon mt-4 mt-lg-10" title="Contact us">Contact Us<span class="button__icon"><svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        </p></div>
+                        <a href="#" class="button button__border button__with-icon mt-6 mt-lg-10" title="Contact us">Contact Us<span class="button__icon"><svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 15.3879L17 8.38794L10 1.38794" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     <path d="M17 8.38794L1 8.38794" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg> </span></a>
