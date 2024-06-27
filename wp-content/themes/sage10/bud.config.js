@@ -97,10 +97,12 @@ export default async (app) => {
       /offcanvas-/,
       /d-/,
       /justify-/,
+      /p-/,
       /pe-/,
       /py-/,
       /px-/,
-      /pt/,
+      /pt-/,
+      /pb-/,
       /text-/,
       /gap-/,
       /container-/,
@@ -118,6 +120,8 @@ export default async (app) => {
       /border-/,
       /mt-/,
       /my-/,
+      /gx-/,
+      /g-/,
     ],
   });
 

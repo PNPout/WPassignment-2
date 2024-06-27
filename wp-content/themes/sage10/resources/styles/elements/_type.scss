@@ -71,6 +71,10 @@ h6,
   line-height: 1.936rem;
   text-transform: uppercase;
   font-weight: $font-weight-semibold;
+  @include media-breakpoint-up(lg) {
+    font-size: 1.8rem;
+    line-height: 2.178rem;
+  }
 }
 body {
   @extend %body-typo;
@@ -107,7 +111,6 @@ body {
     line-height: 3.92rem;
   }
 }
-
 %body-typo {
   font-family: $font-family-body;
   font-weight: 400;
