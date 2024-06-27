@@ -1,36 +1,30 @@
 @import '../common';
-@import '../custom';
+// @import '../custom';
 
 .hero-block {
   background-color: $blush;
 }
-.hero__img {
-  height: 100%;
-
+.hero-block__img {
+  width: 100%;
   &--first {
     aspect-ratio: 327 / 234;
-    // height: 23.4rem;
 
     @include media-breakpoint-up(md) {
       aspect-ratio: 395 / 288;
-      // height: 28.8rem;
     }
 
     @include media-breakpoint-up(lg) {
       aspect-ratio: 486 / 397;
-      // height: 39.7rem;
     }
   }
 
   &--second {
     @include media-breakpoint-up(md) {
       aspect-ratio: 510 / 288;
-      // height: 28.8rem;
     }
 
     @include media-breakpoint-up(lg) {
       aspect-ratio: 754 / 397;
-      // height: 39.7rem;
     }
   }
 
