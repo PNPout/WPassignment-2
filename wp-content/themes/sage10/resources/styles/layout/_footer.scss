@@ -37,6 +37,9 @@
   &__title {
     font-size: 18px;
     line-height: 27px;
+    @include media-breakpoint-up(md) {
+      flex-basis: 100%;
+    }
   }
 
   &__input {

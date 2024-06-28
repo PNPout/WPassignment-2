@@ -4,7 +4,7 @@
 
 <footer class="footer bg-success ">
     <div class="container text-white p-0">
-        <div class="py-10 px-6">
+        <div class="py-10 px-6 py-md-20 px-md-10">
             <div class="row row-cols-1 g-10">
                 <div class="col footer-top">
                     <div class="footer-top__logo">
@@ -13,7 +13,7 @@
                 </div>
                 <div class="col footer-middle">
                     <div class="footer-middle__navs">
-                        <div class="footer-middle__wrapper row row-cols-1 g-10">
+                        <div class="footer-middle__wrapper row row-cols-1 row-cols-md-2 g-10">
                             <div class="col footer-middle-nav">
                                 <p class="footer-middle-nav__title h6"><a href="#">About us</a></p>
                                 <ul class="footer-middle-nav__links footer-middle-nav__links--desktop d-none">
@@ -60,9 +60,9 @@
                             </ul>
                         </div>
                         <div class="footer-bottom-newsletter">
-                            <form action="" method="post" class="footer-bottom-newsletter__form d-flex flex-column gap-6">
-                                <label class="text-blush footer-bottom-newsletter__title fst-italic" for="newsletter__email">Sign up for our newsletter:</label>
-                                <input type="email" name="Email" id="newsletter__email" placeholder="Email address" class="footer-bottom-newsletter__input bg-transparent border border-2 border-white px-3 py-2" aria-required aria-label="Email Address"required>
+                            <form action="" method="post" class="footer-bottom-newsletter__form d-flex flex-column flex-md-row flex-md-wrap gap-6 gap-md-4">
+                                <label class="footer-bottom-newsletter__title text-blush fst-italic" for="newsletter__email">Sign up for our newsletter:</label>
+                                <input type="email" name="Email" id="newsletter__email" placeholder="Email address" class="footer-bottom-newsletter__input bg-transparent border border-2 border-white px-3 py-2 flex-md-grow-1" aria-required aria-label="Email Address"required>
                                 <button type="submit" class="button__border button__with-icon button__border--white" role="button">
                                     Submit
                                     <span class="button__icon">
@@ -77,7 +77,7 @@
                         <div class="footer-bottom-nav footer-bottom-nav--empty"></div>
                     </div>
                 </div>
-                <div class="col footer-copyright">Site content copyright © 2021 Allowded Text</div>
+                <div class="footer-copyright text-blush">Site content copyright © 2021 Allowded Text</div>
             </div>
         </div>
     </div>
