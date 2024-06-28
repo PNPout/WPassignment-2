@@ -15,6 +15,10 @@
 .footer-top__logo {
   width: 15.425rem;
   aspect-ratio: 154.25/70;
+  @include media-breakpoint-up(lg) {
+    width: 27.325rem;
+    aspect-ratio: 273.25/124;
+  }
 }
 .footer-bottom-nav {
   &--empty {
@@ -30,6 +34,14 @@
 
     & a {
       letter-spacing: inherit !important;
+    }
+  }
+  &__links {
+    &--desktop {
+      & a {
+        text-decoration: solid underline white 0.2rem;
+        text-underline-offset: 0.25rem;
+      }
     }
   }
 }
