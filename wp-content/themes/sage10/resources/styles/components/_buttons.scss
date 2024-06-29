@@ -1,13 +1,13 @@
-.btn {
-  border-radius: 3.1rem;
-  padding: 1.2rem 2.5rem;
-  font-size: 2rem;
-}
+// .btn {
+//   border-radius: 3.1rem;
+//   padding: 1.2rem 2.5rem;
+//   font-size: 2rem;
+// }
 .button,
 button {
   appearance: unset;
   font-family: $font-family-body;
-  font-size: 1.8rem;
+  font-size: 1.8rem !important;
   font-weight: $font-weight-semibold;
 }
 button,
@@ -20,6 +20,7 @@ button,
   &:hover {
     background-color: $teal;
     border-color: $teal;
+    color: $white;
   }
   &:disabled,
   &[disabled] {
