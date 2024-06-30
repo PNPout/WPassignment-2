@@ -48,6 +48,9 @@
       @include media-breakpoint-up(md) {
         aspect-ratio: 404 / 276;
       }
+      @include media-breakpoint-up(lg) {
+        aspect-ratio: 462 / 276;
+      }
     }
   }
 
@@ -61,7 +64,7 @@
 }
 .about-content,
 .about-media {
-  flex-basis: 0;
+  // flex-basis: 0;
   &__title {
     font-size: 1.8rem;
     line-height: 2.178rem;
