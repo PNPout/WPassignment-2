@@ -2,7 +2,7 @@
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
 
-const homeSwiper = new Swiper('.js-swiper', {
+new Swiper('.js-swiper', {
   modules: [Navigation, Pagination],
   speed: 400,
   pagination: {
@@ -14,5 +14,3 @@ const homeSwiper = new Swiper('.js-swiper', {
     prevEl: '.swipe-prev',
   },
 });
-
-homeSwiper();
