@@ -9,17 +9,21 @@
   &__slide {
     border-top: 0.8rem solid;
   }
+
   &__image {
     width: 100%;
     aspect-ratio: 327 / 281;
     object-fit: cover;
+
     @include media-breakpoint-up(md) {
       aspect-ratio: 472 / 588;
     }
+
     @include media-breakpoint-up(lg) {
       aspect-ratio: 564 / 496;
     }
   }
+
   &__pagination {
     & .swiper-pagination-bullet {
       width: 0.8rem;
@@ -27,11 +31,37 @@
       border: 0.1rem solid $sky;
       background: transparent;
       opacity: 1;
+
       &-active {
         background-color: $sky;
       }
     }
   }
+
+  &__nav {
+    &-prev,
+    &-next {
+      &:hover {
+        & svg path {
+          @include transition(all 0.6s ease-out);
+
+          stroke: $sky;
+        }
+      }
+    }
+
+    & .swiper-button {
+      &-disabled {
+        pointer-events: none;
+
+        @include button-colors($white, null, #d9d2ca);
+
+        background-color: #d9d2ca !important;
+        cursor: not-allowed;
+      }
+    }
+  }
+
   &__content {
     &-title {
       @include media-breakpoint-up(lg) {
@@ -42,6 +72,7 @@
     }
   }
 }
+
 // .slider-section {
 //   background-color: var(--color-blush);
 //   display: flex;

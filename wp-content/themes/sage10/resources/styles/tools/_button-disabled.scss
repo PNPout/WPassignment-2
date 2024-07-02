@@ -1,4 +1,4 @@
-// eg. @include isable-button($color-white, $dark-grey);
+// eg. @include disable-button($color-white, $dark-grey);
 
 @mixin disable-button($border-color: null, $color: null, $background-color: null) {
   border-color: $border-color;

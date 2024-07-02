@@ -73,6 +73,7 @@
   font-size: 1.8rem;
   line-height: 2.7rem;
 }
+
 // .nav__title a {
 //   color: $white;
 // }
@@ -102,15 +103,7 @@
 // .nav__link a {
 //   color: $white;
 // }
-.button__border--white {
-  border-color: $white;
-  color: $white;
-}
-.button__border--white:hover {
-  background-color: $white;
-  color: var(--color-sky);
-  border-color: $white;
-}
+
 // .footer__newsletter-wrapper,
 // .newsletter__form {
 //   display: flex;
