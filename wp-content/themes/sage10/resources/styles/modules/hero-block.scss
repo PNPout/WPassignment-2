@@ -19,6 +19,9 @@
   }
 
   &--second {
+    min-height: 100%;
+    object-fit: cover;
+
     @include media-breakpoint-up(md) {
       aspect-ratio: 510 / 288;
     }
@@ -30,7 +33,8 @@
 
   &--third {
     aspect-ratio: 376 / 376;
-    height: 37.6rem;
+    min-height: 37.6rem;
+    object-fit: cover;
   }
 }
 .hero-block__content {

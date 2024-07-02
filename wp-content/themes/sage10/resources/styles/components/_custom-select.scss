@@ -74,7 +74,7 @@
 }
 input {
   padding: 0.8rem 1.6rem;
-  border: 0.2rem solid var(--color-space);
+  border: 0.2rem solid $space;
 
   &::placeholder {
     font-style: italic;

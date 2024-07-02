@@ -1,0 +1,9 @@
+@mixin button-colors($text-color: null, $border-color: null, $background-color: null) {
+  color: $text-color;
+  border-color: $border-color;
+  background-color: $background-color;
+
+  & svg path {
+    stroke: $text-color;
+  }
+}
