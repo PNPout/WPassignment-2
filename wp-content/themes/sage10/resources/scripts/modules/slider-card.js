@@ -5,6 +5,7 @@ import { Navigation, Pagination } from 'swiper/modules';
 new Swiper('.js-swiper', {
   modules: [Navigation, Pagination],
   speed: 400,
+  spaceBetween: 0,
   pagination: {
     el: '.swiper-pagination',
     clickable: true,

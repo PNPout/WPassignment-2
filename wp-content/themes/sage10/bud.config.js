@@ -124,6 +124,7 @@ export default async (app) => {
       /g-/,
       /row-/,
       /offset-/,
+      /ms-/,
     ],
   });
 
