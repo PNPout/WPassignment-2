@@ -22,39 +22,36 @@
 
 <section class="slider-cards bg-blush">
     <div class="slider-cards__container container p-0">
+
         <div class="p-6 px-md-10 py-md-20 p-lg-30">
             <div class="row gx-0 gy-6 gy-md-10">
-                <p class="slider-cards__title col-12 h6">Our Team</p>
+                @if ($sliderSectionTitle)
+
+                <p class="slider-cards__title col-12 h6"> {!! $sliderSectionTitle !!}</p>
+                @endif
 
                 <div class="slider-cards__swiper col-12 swiper js-swiper">
                     <div class="slider-cards__wrapper swiper-wrapper">
-                        @include('blocks.cards.slider-card', [
-                        'imgScr' => @asset('images/slider-image-1.jpg'),
-                        'slideTitle' => 'Dally Albana - Site Engineer',
-                        'slideDesc' =>
-                        '“It is not so much for its beauty that the forest makes a claim upon men’s hearts, as for that subtle something, that quality of air that emanation from old trees, that so wonderfully changes and renews a weary spirit.”',
-                        ])
 
-                        @include('blocks.cards.slider-card', [
-                        'imgScr' => @asset('images/slider-image-1.jpg'),
-                        'slideTitle' => 'Sally Albana - Site Engineer',
-                        'slideDesc' =>
-                        '“It is not so much for its beauty that the forest makes a claim upon men’s hearts, as for that subtle something, that quality of air that emanation from old trees, that so wonderfully changes and renews a weary spirit.”',
-                        ])
+                        @foreach( $sliderCard as $card)
+                        <div class="slider-cards__slide swiper-slide row d-flex g-0 mx-lg-0 bg-white border-success">
 
-                        @include('blocks.cards.slider-card', [
-                        'imgScr' => @asset('images/slider-image-1.jpg'),
-                        'slideTitle' => 'Mally Albana - Site Engineer',
-                        'slideDesc' =>
-                        '“It is not so much for its beauty that the forest makes a claim upon men’s hearts, as for that subtle something, that quality of air that emanation from old trees, that so wonderfully changes and renews a weary spirit.”',
-                        ])
+                            @php
 
-                        @include('blocks.cards.slider-card', [
-                        'imgScr' => @asset('images/slider-image-1.jpg'),
-                        'slideTitle' => 'Tally Albana - Site Engineer',
-                        'slideDesc' =>
-                        '“It is not so much for its beauty that the forest makes a claim upon men’s hearts, as for that subtle something, that quality of air that emanation from old trees, that so wonderfully changes and renews a weary spirit.”',
-                        ])
+                            $image = $card['slider_card_image'] ?? false;
+                            $slideTitle = $card['slider_card_heading'] ?? false;
+                            $slideDescription = $card['slider_card_description'] ?? false;
+                            
+                            @endphp
+
+                            @include('blocks.cards.slider-card', [
+                            'image' => $image,
+                            'slideTitle' => $slideTitle,
+                            'slideDescription' => $slideDescription,
+                            ])
+                        </div>
+
+                        @endforeach
                     </div>
                 </div>
 
