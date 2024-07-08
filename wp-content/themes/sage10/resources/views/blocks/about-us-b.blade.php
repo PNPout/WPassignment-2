@@ -31,9 +31,11 @@ $imgUrl = \Roots\asset('images/preview/leadspace.webp')->uri();
     <div class="container container-padding ">
         <div class="row g-10">
             <div class="col-12 col-md-6 col-lg-6 about-content d-flex flex-column gap-10 justify-content-center">
-               
+
                 @if ($aboutBlockContentHeading)
-                <p class="about-content__title h6 m-0">{!! $aboutBlockContentHeading !!}</p>
+                <p class="about-content__title h6 m-0">
+                    {!! $aboutBlockContentHeading !!}
+                </p>
                 @endif
 
                 @if ($aboutBlockContentDescription)
@@ -52,7 +54,7 @@ $imgUrl = \Roots\asset('images/preview/leadspace.webp')->uri();
             </div>
             <div class="col-12 col-md-6 col-lg-5 offset-lg-1 about-media ">
                 <div class="d-flex flex-column bg-mint  p-6 gap-4">
-                
+
                     @if ($aboutBlockMediaTitle)
                     <p class="about-media__title h6 m-0"> {!! $aboutBlockMediaTitle !!}</p>
                     @endif
@@ -60,13 +62,14 @@ $imgUrl = \Roots\asset('images/preview/leadspace.webp')->uri();
                     <div class="about-media__wrapper ">
 
                         @if (!empty($aboutBlockMediaImage) && is_array($aboutBlockMediaImage))
-                        <img loading="lazy" src="{{$aboutBlockMediaImage['url'] }}" style="width:100%;height:auto;" alt="{{$aboutBlockMediaImage['alt'] }}" class="about-media__image">
+                        <img loading="lazy" src="{{$aboutBlockMediaImage['url'] }}" style="width:100%;height:auto;" alt="{!! $aboutBlockMediaImage['alt'] !!}" class="about-media__image">
                         @endif
                         @if (!empty($aboutBlockMediaLink) && is_array($aboutBlockMediaLink))
-                        <a href="{{$aboutBlockMediaLink['url']}}" class="about-media__play" title="{{$aboutBlockMediaLink['title']}}">
+                        <a href="{{$aboutBlockMediaLink['url']}}" class="about-media__play" title="{!! $aboutBlockMediaLink['title'] !!}">
                             <img loading="lazy" src="@asset('images/play-button.svg')" style="width:100%;height:auto;">
                         </a>
                         @endif
+                        
                     </div>
                 </div>
             </div>
